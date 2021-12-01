@@ -1,0 +1,15 @@
+<p-menubar class="fixed w-full z-5 top-0">
+    <ng-template pTemplate="start">
+        <h1 class="app-name">Kids Heaven</h1>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [popup]="true" [model]="items"></p-menu>
+      <div class="user-dropdown" (click)="menu.toggle($event)">
+        <div class="flex align-items-center">
+          <p-avatar class="" image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnS1o3mO3S_Nkfw1WAGaRJ6KaOGgODpfoOsA&usqp=CAU" size="large" shape="circle"></p-avatar>
+          <span class="user-name">Zé</span>
+          <i class="pi pi-chevron-down"></i>
+        </div>
+      </div>
+    </ng-template>
+</p-menubar>
