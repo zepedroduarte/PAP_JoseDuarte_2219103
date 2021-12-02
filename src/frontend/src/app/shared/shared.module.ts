@@ -8,11 +8,14 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {AvatarModule} from "primeng/avatar";
 import {MenuModule} from "primeng/menu";
 import {FontAwesomeTestingModule} from "@fortawesome/angular-fontawesome/testing";
+import { HomeComponent } from './home/home.component';
+import {InputTextModule} from "primeng/inputtext";
 
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -21,9 +24,11 @@ import {FontAwesomeTestingModule} from "@fortawesome/angular-fontawesome/testing
     AvatarModule,
     MenuModule,
     FontAwesomeTestingModule,
+    InputTextModule,
   ],
   exports: [
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
   ]
 })
 export class SharedModule { }

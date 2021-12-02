@@ -2,14 +2,21 @@
     <ng-template pTemplate="start">
         <h1 class="app-name">Kids Heaven</h1>
     </ng-template>
+
     <ng-template pTemplate="end">
-      <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [popup]="true" [model]="items"></p-menu>
-      <div class="user-dropdown" (click)="menu.toggle($event)">
-        <div class="flex align-items-center">
-          <p-avatar class="" image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnS1o3mO3S_Nkfw1WAGaRJ6KaOGgODpfoOsA&usqp=CAU" size="large" shape="circle"></p-avatar>
-          <span class="user-name">Zé</span>
-          <i class="pi pi-chevron-down"></i>
+      <div *ngIf="isAuthenticated == true">
+        <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [popup]="true" [model]="items"></p-menu>
+        <div class="user-dropdown" (click)="menu.toggle($event)">
+          <div class="flex align-items-center">
+            <p-avatar class="" image="https://i.pinimg.com/236x/b9/f1/6b/b9f16b58ce44a7e2de7c3e8ba506d651.jpg" size="large" shape="circle"></p-avatar>
+            <span class="user-name">Zé</span>
+            <i class="pi pi-chevron-down"></i>
+          </div>
         </div>
+      </div>
+      <div *ngIf="isAuthenticated == false">
+        <button pButton class="registerButton mr-2 p-button-rounded p-button-outlined p-button-raised m-1" type="button" label="Login" (click)="Authenticate()"></button >
+        <button pButton class="mr-4 p-button-rounded p-button-raised m-1" type="button" label="Registrar"></button>
       </div>
     </ng-template>
 </p-menubar>

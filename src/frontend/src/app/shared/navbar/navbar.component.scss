@@ -17,3 +17,14 @@
 .user-name {
   margin: 0 20px;
 }
+
+::ng-deep .p-button-label {
+  color:white;
+}
+
+::ng-deep .p-menubar-button {
+  display: none !important;
+}
+
+
+

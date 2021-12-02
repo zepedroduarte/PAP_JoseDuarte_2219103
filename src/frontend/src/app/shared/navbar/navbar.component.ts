@@ -6,10 +6,15 @@ import {MenuItem} from "primeng/api";
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss'],
-  })
-  export class NavbarComponent implements OnInit {
+})
+
+export class NavbarComponent implements OnInit {
 
   items: MenuItem[] = [];
+
+
+
+  isAuthenticated: boolean = false;
 
   constructor() {}
 
@@ -21,5 +26,9 @@ import {MenuItem} from "primeng/api";
       {label: 'Favoritos', icon: 'pi pi-fw pi-heart'},
       {label: 'Sair', icon: 'pi pi-fw pi-sign-out'}
     ];
+  }
+
+  Authenticate() {
+    this.isAuthenticated = true;
   }
 }
