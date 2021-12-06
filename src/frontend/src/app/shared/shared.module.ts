@@ -10,22 +10,25 @@ import {MenuModule} from "primeng/menu";
 import {FontAwesomeTestingModule} from "@fortawesome/angular-fontawesome/testing";
 import { HomeComponent } from './home/home.component';
 import {InputTextModule} from "primeng/inputtext";
-
+import {DividerModule} from 'primeng/divider';
+import {CardModule} from "primeng/card";
 
 @NgModule({
   declarations: [
     NavbarComponent,
     HomeComponent
   ],
-  imports: [
-    CommonModule,
-    MenubarModule,
-    ConfirmDialogModule,
-    AvatarModule,
-    MenuModule,
-    FontAwesomeTestingModule,
-    InputTextModule,
-  ],
+    imports: [
+        CommonModule,
+        MenubarModule,
+        ConfirmDialogModule,
+        AvatarModule,
+        MenuModule,
+        FontAwesomeTestingModule,
+        InputTextModule,
+        DividerModule,
+        CardModule
+    ],
   exports: [
     NavbarComponent,
     HomeComponent
