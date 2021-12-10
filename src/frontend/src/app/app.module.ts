@@ -6,12 +6,20 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthPageComponent } from './shared/auth-page/auth-page.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import {CheckboxModule} from "primeng/checkbox";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {InputTextModule} from "primeng/inputtext";
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    AuthPageComponent,
+    FooterComponent,
 
   ],
   imports: [
@@ -19,7 +27,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    CheckboxModule,
+    ButtonModule,
+    RippleModule,
+    InputTextModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12,8 +12,6 @@ export class NavbarComponent implements OnInit {
 
   items: MenuItem[] = [];
 
-
-
   isAuthenticated: boolean = false;
 
   constructor() {}
@@ -26,9 +24,5 @@ export class NavbarComponent implements OnInit {
       {label: 'Favoritos', icon: 'pi pi-fw pi-heart'},
       {label: 'Sair', icon: 'pi pi-fw pi-sign-out'}
     ];
-  }
-
-  Authenticate() {
-    this.isAuthenticated = true;
   }
 }
