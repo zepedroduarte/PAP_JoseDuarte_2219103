@@ -6,19 +6,20 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AuthPageComponent } from './shared/auth-page/auth-page.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import {CheckboxModule} from "primeng/checkbox";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
-
-
+import {AngularFireModule} from "@angular/fire/compat";
+import {environment} from "../environments/environment";
+import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+import { AuthService } from "./shared/services/auth-service.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthPageComponent,
     FooterComponent,
 
   ],
@@ -31,9 +32,12 @@ import {InputTextModule} from "primeng/inputtext";
     CheckboxModule,
     ButtonModule,
     RippleModule,
-    InputTextModule
+    InputTextModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

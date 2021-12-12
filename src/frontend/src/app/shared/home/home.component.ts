@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
   faSearch = faSearch;
   faPlus = faPlus;
-  faEnvelope = faEnvelope
+  faEnvelope = faEnvelope;
 
   constructor() { }
 
