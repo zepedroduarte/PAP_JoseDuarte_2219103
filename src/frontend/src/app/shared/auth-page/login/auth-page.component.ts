@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {MessageService} from 'primeng/api';
-import {Router} from  '@angular/router'
 import {AuthService} from '../../services/auth-service.service'
-
 
 
 @Component({
@@ -19,16 +17,22 @@ export class AuthPageComponent implements OnInit {
   }
 
   login(email: string, password: string) {
-    if(email == '' || password == '') {
-      this.messageService.add({severity:'error', summary:'Erro', detail:'Preencha todos os campos'});
-    }
 
-    if(email == 'ola@gmail.com' && password == '123') {
+    this.authService.SignIn(email, password).catch(error => {
 
-    }
-    else if(email != 'ola@gmail.com' && email != '' && password != '123' && password != '') {
-      this.messageService.add({severity:'warn', summary:'Alerta', detail:'Email ou palavra-passe incorreto'})
-    }
+      if(error.code == 'auth/invalid-email' || error.code == 'auth/internal-error' ) {
+        this.messageService.add({severity:'error', summary:'Erro', detail:'Preencha todos os campos'});
+      }
+
+      if(error.code == 'auth/user-not-found' || error.code == 'auth/wrong-password'){
+        this.messageService.add({severity:'error', summary:'Erro', detail:'O e-mail ou a password estão errados'});
+      }
+
+      if(error.code == 'auth/invalid-email-verified') {
+        this.messageService.add({severity:'error', summary:'Erro', detail:'O e-mail não esta verificado'});
+      }
+
+    })
   }
 
 }

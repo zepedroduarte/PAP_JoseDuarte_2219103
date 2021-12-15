@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import {MenuItem} from "primeng/api";
+import {AuthService} from "../services/auth-service.service";
+
 
 @Component({
     selector: 'app-navbar',
@@ -12,9 +14,7 @@ export class NavbarComponent implements OnInit {
 
   items: MenuItem[] = [];
 
-  isAuthenticated: boolean = false;
-
-  constructor() {}
+  constructor(public authService: AuthService) {}
 
   ngOnInit() {
     this.items = [
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
       {label: 'Mensagens', icon: 'pi pi-fw pi-comments'},
       {label: 'Meus Anuncios', icon: 'pi pi-fw pi-briefcase'},
       {label: 'Favoritos', icon: 'pi pi-fw pi-heart'},
-      {label: 'Sair', icon: 'pi pi-fw pi-sign-out'}
+      {label: 'Sair', icon: 'pi pi-fw pi-sign-out', command: (click)=>{this.authService.SignOut()}}
     ];
   }
 }

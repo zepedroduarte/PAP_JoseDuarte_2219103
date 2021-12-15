@@ -19,6 +19,7 @@ import {AuthPageComponent} from "./auth-page/login/auth-page.component";
 import {CheckboxModule} from "primeng/checkbox";
 import {MessageService} from "primeng/api";
 import {RippleModule} from "primeng/ripple";
+import {DropdownModule} from "primeng/dropdown";
 
 @NgModule({
   declarations: [
@@ -27,22 +28,23 @@ import {RippleModule} from "primeng/ripple";
     AuthPageComponent,
     RegisterComponent
   ],
-  imports: [
-    CommonModule,
-    MenubarModule,
-    ConfirmDialogModule,
-    AvatarModule,
-    MenuModule,
-    FontAwesomeTestingModule,
-    InputTextModule,
-    DividerModule,
-    CardModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ToastModule,
-    CheckboxModule,
-    RippleModule
-  ],
+    imports: [
+        CommonModule,
+        MenubarModule,
+        ConfirmDialogModule,
+        AvatarModule,
+        MenuModule,
+        FontAwesomeTestingModule,
+        InputTextModule,
+        DividerModule,
+        CardModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ToastModule,
+        CheckboxModule,
+        RippleModule,
+        DropdownModule,
+    ],
   exports: [
     NavbarComponent,
     HomeComponent

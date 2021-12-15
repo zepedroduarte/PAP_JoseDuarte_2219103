@@ -15,7 +15,7 @@ export class AuthService {
   constructor(
     public afAuth: AngularFireAuth,
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
   ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -37,7 +37,7 @@ export class AuthService {
           this.router.navigate(['/home']);
         });
       }).catch((error) => {
-        window.alert(error.message)
+        throw error;
       })
   }
 
@@ -70,13 +70,13 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     const user = JSON.parse(<string>localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false);
+    return (user !== null /*&& user.emailVerified !== false*/);
   }
 
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['/home']);
     })
   }
 
