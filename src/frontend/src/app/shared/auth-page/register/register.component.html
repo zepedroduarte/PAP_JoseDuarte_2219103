@@ -1,24 +1,65 @@
 <p-toast position="top-right"></p-toast>
-<div class="flex justify-content-center login">
+<form [formGroup]="form" class="flex justify-content-center registerMenu" (ngSubmit)="register()">
   <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
-    <div class="text-center mb-5">
+    <div class="text text-center mb-5">
       <div class="text-900 text-3xl font-medium mb-3">Bem vindo</div>
+      <span class="text-600 font-medium">Já tem conta?</span>
+      <a [routerLink]="['/login']" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Entre aqui!</a>
     </div>
     <div>
-      <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-      <input id="email1" type="text" pInputText class="w-full mb-3" #email required>
-      <label for="username1" class="block text-900 font-medium mb-2">Nome</label>
-      <input id="username1" type="text" pInputText class="w-full mb-3" #username required>
-      <label for="phonenumber1" class="block text-900 font-medium mb-2">Telemovel</label>
-      <input id="phonenumber1" type="text" pInputText class="w-full mb-3" #phonenumber required>
-      <label for="password1" class="block text-900 font-medium mb-2">Password</label>
-      <input id="password1" type="password" pInputText class="w-full mb-3" #password required>
-      <label for="confirmpassword1" class="block text-900 font-medium mb-2">Confirmar Password</label>
-      <input id="confirmpassword1" type="password" pInputText class="w-full mb-3" #password required>
-      <label class="block text-900 font-medium mb-2">Distrito</label>
-      <p-dropdown [options]="cities" optionLabel="name" #district></p-dropdown>
-      <button pButton pRipple label="Registrar" icon="pi pi-user-plus" class="w-full"></button>
+      <div>
+        <label for="email" class="block text-900 font-medium mb-2">Email</label>
+        <input id="email" type="text" pInputText class="w-full mb-3" formControlName="email" [ngClass]="{'ng-dirty': email!.invalid && email!.touched}">
+        <div *ngIf="email!.invalid && (email!.dirty || email!.touched)">
+          <p *ngIf="email!.errors?.['required']" class="p-error mt-0">Email é obrigatório</p>
+        </div>
+      </div>
+
+      <div>
+        <label for="name" class="block text-900 font-medium mb-2">Nome</label>
+        <input id="name" type="text" pInputText class="w-full mb-3" formControlName="name" [ngClass]="{'ng-dirty': name!.invalid && name!.touched}">
+        <div *ngIf="name!.invalid && (name!.dirty || name!.touched)">
+          <p *ngIf="name!.errors?.['required']" class="p-error mt-0">Nome obrigatório</p>
+          <p *ngIf="name!.errors?.['maxlength']" class="p-error mt-0">Exedeu o número máximo de 100 caracteres</p>
+        </div>
+      </div>
+
+      <div>
+        <label for="phoneNumber" class="block text-900 font-medium mb-2">Telemovel</label>
+        <input id="phoneNumber" type="text" pInputText class="w-full mb-3" formControlName="phoneNumber" [ngClass]="{'ng-dirty': phoneNumber!.invalid && phoneNumber!.touched}">
+        <div *ngIf="phoneNumber!.invalid && (phoneNumber!.dirty || phoneNumber!.touched)">
+          <p *ngIf="phoneNumber!.errors?.['required']" class="p-error mt-0">Nº de telemovel obrigatório</p>
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-900 font-medium mb-2">Password</label>
+        <input id="password" type="password" pInputText class="w-full mb-3" formControlName="password" [ngClass]="{'ng-dirty': password!.invalid && password!.touched}">
+        <div *ngIf="password!.invalid && (password!.dirty || password!.touched)">
+          <p *ngIf="password!.errors?.['required']" class="p-error mt-0">Password obrigatória</p>
+          <p *ngIf="password!.errors?.['minlength']" class="p-error mt-0">A password tem de ter mais de 6 caracteres</p>
+        </div>
+      </div>
+
+      <div>
+        <label for="confirmPassword" class="block text-900 font-medium mb-2">Confirmar Password</label>
+        <input id="confirmPassword" type="password" pInputText class="w-full mb-3" formControlName="confirmPassword" [ngClass]="{'ng-dirty': confirmPassword!.invalid && confirmPassword!.touched}">
+        <div *ngIf="confirmPassword!.invalid && (confirmPassword!.dirty || confirmPassword!.touched)">
+          <p *ngIf="confirmPassword!.errors?.['required']" class="p-error mt-0">Confirme a sua password</p>
+          <p *ngIf="confirmPassword!.hasError('matching') && !confirmPassword!.errors?.['required']" class="p-error mt-0">Passwords devem ser iguais</p>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-900 font-medium mb-2">Distrito</label>
+        <p-dropdown [options]="districts" optionLabel="districtName" placeholder="Selecione o distrito" formControlName="district" [ngClass]="{'ng-dirty': district!.invalid && district!.touched}"></p-dropdown>
+        <div *ngIf="district!.invalid && (district!.dirty || district!.touched)">
+          <p *ngIf="district!.errors?.['required']" class="p-error mt-0">Escolha um distrito</p>
+        </div>
+      </div>
+
+      <button [disabled]="!form.valid" type="submit" pButton pRipple label="Registrar" icon="pi pi-user-plus" class="w-full"></button>
     </div>
   </div>
-</div>
+</form>
 

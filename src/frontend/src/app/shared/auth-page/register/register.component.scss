@@ -1,9 +1,16 @@
-.login {
-  margin-top: 15vh;
+.registerMenu {
+  margin-top: 14vh;
   font-family: Inter, sans-serif;
+  margin-bottom: 3vh;
 }
 
 ::ng-deep .p-dropdown{
   margin-bottom: 3rem;
   width: 100%;
+}
+
+.text {
+  span, a {
+    padding-top: 0;
+  }
 }

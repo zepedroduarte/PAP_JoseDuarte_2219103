@@ -1,7 +1,8 @@
-export interface User {
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL: string;
-  emailVerified: boolean;
+export interface CreateUser {
+  firebaseUid: string | void | undefined,
+  userName: string,
+  email: string,
+  phoneNumber: string,
+  districtId: number
 }
+

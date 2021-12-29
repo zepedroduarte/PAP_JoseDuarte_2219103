@@ -4,6 +4,8 @@ import {Router} from "@angular/router";
 import User = firebase.User;
 import firebase from "firebase/compat";
 import {sendEmailVerification} from "@angular/fire/auth";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {CreateUser} from "../models/user";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,7 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
+    public http: HttpClient,
   ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -33,9 +36,15 @@ export class AuthService {
   SignIn(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/home']);
-        });
+        if(result.user?.emailVerified) {
+          this.ngZone.run(() => {
+            this.router.navigate(['/home']);
+          });
+        }
+        else{
+          this.afAuth.signOut();
+          throw new Error("emailIsNotVerified");
+        }
       }).catch((error) => {
         throw error;
       })
@@ -44,19 +53,18 @@ export class AuthService {
   SignUp(email: string, password: string) {
     return this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
+        this.afAuth.signOut();
         if(result.user != null) {
           this.SendVerificationMail(result.user);
         }
+        return result.user;
       }).catch((error) => {
-        window.alert(error.message)
+        throw error;
       })
   }
 
   SendVerificationMail(user: User) {
     return sendEmailVerification(user)
-      .then(() => {
-        this.router.navigate(['verify-email-address']);
-      })
   }
 
   ForgotPassword(passwordResetEmail: string) {
@@ -78,6 +86,17 @@ export class AuthService {
       localStorage.removeItem('user');
       this.router.navigate(['/home']);
     })
+  }
+
+  getDistricts() {
+    return this.http.get('https://localhost:5001/District')
+  }
+
+  signUpDatabase(data: CreateUser) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.post('https://localhost:5001/User', JSON.stringify(data), httpOptions)
   }
 
 }

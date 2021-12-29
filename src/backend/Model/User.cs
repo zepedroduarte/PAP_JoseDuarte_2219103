@@ -6,20 +6,12 @@ namespace backend.Model
     
     public class User
     {
-        public int Id;
-        
-        public int FirebaseUid;
-        
-        public string UserName;
-        
-        public string Email;
-        
-        public string Password;
-        
-        public string PhoneNumber;
-        
-        public string UserPhotoUrl;
-        
-        public int UserDistrictId;
-    }
+        public int Id { get; set; }
+        public string UserFirebaseUid { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
+        public string UserPhoneNumber { get; set; }
+        public string UserPhotoUrl { get; set; }
+        public int DistrictId { get; set; }
+    } 
 }

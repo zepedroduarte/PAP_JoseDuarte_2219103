@@ -28,10 +28,9 @@ export class AuthPageComponent implements OnInit {
         this.messageService.add({severity:'error', summary:'Erro', detail:'O e-mail ou a password estão errados'});
       }
 
-      if(error.code == 'auth/invalid-email-verified') {
+      if(error.message == 'emailIsNotVerified') {
         this.messageService.add({severity:'error', summary:'Erro', detail:'O e-mail não esta verificado'});
       }
-
     })
   }
 
