@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {MenuItem} from "primeng/api";
 import {AuthService} from "../services/auth-service.service";
-
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-navbar',
@@ -13,12 +13,13 @@ import {AuthService} from "../services/auth-service.service";
 export class NavbarComponent implements OnInit {
 
   items: MenuItem[] = [];
+  userName!: string;
 
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService,  public router: Router) {}
 
   ngOnInit() {
     this.items = [
-      {label: 'Perfil', icon: 'pi pi-fw pi-user'},
+      {label: 'Perfil', icon: 'pi pi-fw pi-user', command: (click) => [this.router.navigate(['/profile'])]},
       {label: 'Mensagens', icon: 'pi pi-fw pi-comments'},
       {label: 'Meus Anuncios', icon: 'pi pi-fw pi-briefcase'},
       {label: 'Favoritos', icon: 'pi pi-fw pi-heart'},

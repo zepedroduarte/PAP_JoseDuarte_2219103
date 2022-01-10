@@ -1,9 +1,8 @@
-export interface UserData {
-  userId: number,
+export interface CreateUser {
   firebaseUid: string | void | undefined,
   userName: string,
   email: string,
   phoneNumber: string,
-  districtId: number,
-  userPhotoUrl: string,
+  districtId: number
 }
+

@@ -21,15 +21,15 @@ export class AuthPageComponent implements OnInit {
     this.authService.SignIn(email, password).catch(error => {
 
       if(error.code == 'auth/invalid-email' || error.code == 'auth/internal-error' ) {
-        this.messageService.add({severity:'error', summary:'Erro', detail:'Preencha todos os campos'});
+        this.messageService.add({key: 'main', severity:'error', summary:'Erro', detail:'Preencha todos os campos'});
       }
 
       if(error.code == 'auth/user-not-found' || error.code == 'auth/wrong-password'){
-        this.messageService.add({severity:'error', summary:'Erro', detail:'O e-mail ou a password estão errados'});
+        this.messageService.add({key: 'main', severity:'error', summary:'Erro', detail:'O e-mail ou a password estão errados'});
       }
 
       if(error.message == 'emailIsNotVerified') {
-        this.messageService.add({severity:'error', summary:'Erro', detail:'O e-mail não esta verificado'});
+        this.messageService.add({key: 'main', severity:'error', summary:'Erro', detail:'O e-mail não esta verificado'});
       }
     })
   }

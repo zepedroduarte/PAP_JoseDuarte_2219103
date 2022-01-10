@@ -5,7 +5,10 @@ import User = firebase.User;
 import firebase from "firebase/compat";
 import {sendEmailVerification} from "@angular/fire/auth";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {CreateUser} from "../models/user";
+import {CreateUser} from "../models/create-user";
+import {UserService} from "./user-service.service";
+import {UserData} from "../models/user";
+import {Message, MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +16,25 @@ import {CreateUser} from "../models/user";
 export class AuthService {
 
   userData: any;
+  user!: UserData;
 
   constructor(
-    public afAuth: AngularFireAuth,
-    public router: Router,
-    public ngZone: NgZone,
-    public http: HttpClient,
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private ngZone: NgZone,
+    private http: HttpClient,
+    private userService: UserService,
   ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(<string>localStorage.getItem('user'));
+
+        this.userService.getUser().subscribe(
+          (data) => {
+            this.user = data;
+          })
       } else {
         // @ts-ignore
         localStorage.setItem('user', null);
@@ -69,10 +79,9 @@ export class AuthService {
 
   ForgotPassword(passwordResetEmail: string) {
     return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Email para redefinir a sua palavra-passe enviado, verifique o seu email.');
-      }).catch((error) => {
-        window.alert(error)
+      .then( () => this.router.navigate(['/login']))
+      .catch((error) => {
+        throw error;
       })
   }
 

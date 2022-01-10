@@ -17,12 +17,13 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import { AuthService } from "./shared/services/auth-service.service";
 import { HttpClientModule } from '@angular/common/http';
+import {ToastModule} from "primeng/toast";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -37,7 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

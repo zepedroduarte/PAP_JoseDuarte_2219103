@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../../services/auth-service.service";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup, FormGroupDirective, NgForm,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from "@angular/forms";
-import {CreateUser} from "../../models/user";
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import {CreateUser} from "../../models/create-user";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/api";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -57,14 +50,27 @@ export class RegisterComponent implements OnInit {
 
           this.authService.signUpDatabase(userData).subscribe(
             (response) => {
-              this.router.navigate(['/login'])
+              this.alertAccountCreated()
             }
           )
         }
       }
     ).catch(error => {
-      if(error.code == 'email-already-in-use') {
-        this.messageService.add({severity:'error', summary:'Erro', detail:'Email já existente'})
+      if(error.code == 'auth/email-already-in-use') {
+        this.messageService.add({key: 'main', severity:'error', summary:'Erro', detail:'Email já existente'})
+      }
+    })
+  }
+
+  alertAccountCreated() {
+    Swal.fire({
+      title: 'Conta criada!',
+      html: 'Foi enviado um email de confirmação da sua conta para o seu email.',
+      icon: 'success',
+    }).then((response) => {
+      this.form.reset();
+      if(response.isConfirmed) {
+        this.router.navigate(['/login'])
       }
     })
   }
@@ -95,23 +101,24 @@ export class RegisterComponent implements OnInit {
 }
 
 export function passwordValidator(
-  matchTo: string,
-  reverse?: boolean
-): ValidatorFn {
-  return (control: AbstractControl):
-    ValidationErrors | null => {
-    if (control.parent && reverse) {
-      const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
-      if (c) {
-        c.updateValueAndValidity();
+    matchTo: string,
+    reverse?: boolean
+  ): ValidatorFn {
+    return (control: AbstractControl):
+      ValidationErrors | null => {
+      if (control.parent && reverse) {
+        const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
+        if (c) {
+          c.updateValueAndValidity();
+        }
+        return null;
       }
-      return null;
-    }
-    return !!control.parent &&
-    !!control.parent.value &&
-    control.value ===
-    (control.parent?.controls as any)[matchTo].value
-      ? null
-      : { matching: true };
-  };
+      return !!control.parent &&
+      !!control.parent.value &&
+      control.value ===
+      (control.parent?.controls as any)[matchTo].value
+        ? null
+        : { matching: true };
+    };
 }
+

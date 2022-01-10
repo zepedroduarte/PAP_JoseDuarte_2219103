@@ -9,7 +9,7 @@
         <div class="user-dropdown" (click)="menu.toggle($event)">
           <div class="flex align-items-center">
             <p-avatar class="" image="https://i.pinimg.com/236x/b9/f1/6b/b9f16b58ce44a7e2de7c3e8ba506d651.jpg" size="large" shape="circle"></p-avatar>
-            <span class="user-name">Zé</span>
+            <span class="user-name uppercase">{{ authService.user?.userName ? authService.user?.userName : '' }}</span>
             <i class="pi pi-chevron-down"></i>
           </div>
         </div>

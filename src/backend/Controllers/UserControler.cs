@@ -8,8 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Dto;
 using backend.Model;
+using Dapper;
 using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
@@ -43,14 +45,48 @@ namespace backend.Controllers
                 DistrictId = user.DistrictId,
             };
 
-            long id = _connection.Insert(userCredentials);
-
-            if(id > 0)
+            try
             {
-                response = NoContent();
+                long id = _connection.Insert(userCredentials);
+
+                if (id > 0)
+                {
+                    response = NoContent();
+                }
+
+                return response;
             }
-            
-            return response;
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetUser()
+        {
+            string uid = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
+            string getUser = "SELECT * FROM KidsHeavenDB.UserAccounts  WHERE UserFirebaseUid = @uid";
+
+            try
+            {
+                var user = await _connection.QueryAsync<User>(getUser, new {uid = uid});
+                return Ok(user.FirstOrDefault());
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

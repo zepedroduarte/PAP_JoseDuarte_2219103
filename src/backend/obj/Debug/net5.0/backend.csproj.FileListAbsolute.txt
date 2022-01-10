@@ -34,3 +34,10 @@ C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net
 C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
 C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\zeped\Documents\GitHub\PAP_JoseDuarte_2219103\src\backend\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll

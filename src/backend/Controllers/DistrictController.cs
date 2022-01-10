@@ -1,8 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using backend.Model;
 using Dapper.Contrib.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -27,7 +29,18 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDistricts()
         {
-            return Ok(await _connection.GetAllAsync<Districts>());
+            try
+            {
+                return Ok(await _connection.GetAllAsync<Districts>());
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

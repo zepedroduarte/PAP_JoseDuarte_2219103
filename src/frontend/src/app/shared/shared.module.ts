@@ -20,13 +20,18 @@ import {CheckboxModule} from "primeng/checkbox";
 import {MessageService} from "primeng/api";
 import {RippleModule} from "primeng/ripple";
 import {DropdownModule} from "primeng/dropdown";
+import {HttpClientModule} from "@angular/common/http";
+import { ResetPasswordComponent } from './auth-page/reset-password/reset-password.component';
+import {UserProfileComponent} from "../user-profile/user-profile.component";
 
 @NgModule({
   declarations: [
     NavbarComponent,
     HomeComponent,
     AuthPageComponent,
-    RegisterComponent
+    RegisterComponent,
+    UserProfileComponent,
+    ResetPasswordComponent,
   ],
     imports: [
         CommonModule,
@@ -44,6 +49,7 @@ import {DropdownModule} from "primeng/dropdown";
         CheckboxModule,
         RippleModule,
         DropdownModule,
+        HttpClientModule
     ],
   exports: [
     NavbarComponent,
