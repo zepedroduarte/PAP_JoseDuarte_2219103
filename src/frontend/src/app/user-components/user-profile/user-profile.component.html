@@ -1,0 +1,38 @@
+<div class="flex justify-content-center profile">
+  <div class="surface-card p-4 shadow-2 border-round lg:w-7">
+      <div class="flex justify-content-between">
+        <div class="buttonExit">
+          <button pButton pRipple label="Voltar" icon="pi pi-arrow-left" [routerLink]='["/home"]'></button>
+        </div>
+        <div class="buttonEdit">
+          <button pButton pRipple label="Editar" icon="pi pi-user-edit" [routerLink]='["editUser"]'></button>
+        </div>
+      </div>
+      <div class="grid pt-6">
+        <div class="image-upload col-2 flex align-items-center justify-content-center">
+          <label for="upload-photo-input" class="upload-photo-img">
+              <img [src]="((this.user?.userPhotoUrl != undefined) ? this.user?.userPhotoUrl : './assets/user_default.png')"  class="w-7rem cursor-pointer flex align-items-center">
+          </label>
+          <input type="file" (change)="uploadImage($event)" id="upload-photo-input">
+        </div>
+        <div class="user pt-3 col-6">
+          <h3 class="mb-2">{{user?.userName}}</h3>
+          <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="val"></p-rating>
+        </div>
+        <div class="userInfo p-4 col-4">
+          <div class="userPhone flex align-items-center mb-3">
+            <fa-icon [icon]="faPhoneAlt"></fa-icon>
+            <span class="ml-2">{{user?.userPhoneNumber}}</span>
+          </div>
+          <div class="userEmail flex align-items-center mb-3">
+            <fa-icon [icon]="faEnvelope"></fa-icon>
+            <span class="ml-2">{{user?.userEmail}}</span>
+          </div>
+          <div class="userDistrict flex align-items-center mb-3">
+            <fa-icon [icon]="faHome"></fa-icon>
+            <span class="ml-2">{{user?.districtName}}</span>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

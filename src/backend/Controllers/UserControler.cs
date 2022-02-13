@@ -31,7 +31,7 @@ namespace backend.Controllers
         
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CreateUser([FromBody] CreateUserDto user)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserDto user)
         { 
             IActionResult response = Unauthorized();
 
@@ -47,11 +47,51 @@ namespace backend.Controllers
 
             try
             {
-                long id = _connection.Insert(userCredentials);
+                long id = await _connection.InsertAsync(userCredentials);
 
                 if (id > 0)
                 {
                     response = NoContent();
+                }
+
+                return response;
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO user, int id)
+        { 
+            IActionResult response = Unauthorized();
+
+            var userData = await _connection.GetAsync<User>(id);
+
+            User userCredentials = new User
+            {
+                UserId = id,
+                UserFirebaseUid = userData.UserFirebaseUid,
+                UserName = user.UserName,
+                UserEmail = user.Email,
+                UserPhoneNumber = user.PhoneNumber,
+                UserPhotoUrl = user.UserPhotoUrl,
+                DistrictId = user.DistrictId,
+            };
+
+            try
+            {
+                bool wasUpdated = await _connection.UpdateAsync(userCredentials);
+                
+                if (wasUpdated)
+                {
+                    return Ok(wasUpdated);
                 }
 
                 return response;
@@ -72,11 +112,11 @@ namespace backend.Controllers
         {
             string uid = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
 
-            string getUser = "SELECT * FROM KidsHeavenDB.UserAccounts  WHERE UserFirebaseUid = @uid";
+            string getUser = "SELECT UserId, UserFirebaseUid, UserName, UserEmail, UserPhoneNumber, UserPhotoUrl, KidsHeavenDB.Districts.DistrictName, DistrictId FROM KidsHeavenDB.UserAccounts JOIN KidsHeavenDB.Districts on KidsHeavenDB.UserAccounts.DistrictId = KidsHeavenDB.Districts.DistrictsId WHERE UserFirebaseUid = @uid";
 
             try
             {
-                var user = await _connection.QueryAsync<User>(getUser, new {uid = uid});
+                var user = await _connection.QueryAsync<UserInfoDTO[]>(getUser, new {uid = uid});
                 return Ok(user.FirstOrDefault());
             }
             catch (SqlException ex)

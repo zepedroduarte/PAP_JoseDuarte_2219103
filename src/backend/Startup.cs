@@ -31,7 +31,29 @@ namespace backend
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "KidsHeaven.API", Version = "v1" });
+
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Firebase Authentication",
+                    Description = "Put JWT",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement 
+                {
+                    { securityScheme, new string[] {} }
+                });
             });
             
             services.AddCors(options => options.AddDefaultPolicy(builder => 
@@ -39,6 +61,7 @@ namespace backend
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
+                
             }));
 
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -57,6 +80,8 @@ namespace backend
                         ValidAudience = Configuration["Jwt:Firebase:ValidAudience"]
                     };
                 });
+            
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

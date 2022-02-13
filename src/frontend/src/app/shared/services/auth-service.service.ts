@@ -8,7 +8,9 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CreateUser} from "../models/create-user";
 import {UserService} from "./user-service.service";
 import {UserData} from "../models/user";
-import {Message, MessageService} from "primeng/api";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {Observable} from "rxjs";
+import {Districs} from "../models/districs";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,7 @@ export class AuthService {
 
   constructor(
     private afAuth: AngularFireAuth,
+    private afStorage: AngularFireStorage,
     private router: Router,
     private ngZone: NgZone,
     private http: HttpClient,
@@ -87,7 +90,7 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     const user = JSON.parse(<string>localStorage.getItem('user'));
-    return (user !== null /*&& user.emailVerified !== false*/);
+    return (user !== null && user.emailVerified !== false);
   }
 
   SignOut() {
@@ -97,8 +100,8 @@ export class AuthService {
     })
   }
 
-  getDistricts() {
-    return this.http.get('https://localhost:5001/District')
+  getDistricts():Observable<Districs[]> {
+    return this.http.get<Districs[]>('https://localhost:5001/District')
   }
 
   signUpDatabase(data: CreateUser) {

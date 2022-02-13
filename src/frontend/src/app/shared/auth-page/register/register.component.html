@@ -1,4 +1,3 @@
-
 <form [formGroup]="form" class="flex justify-content-center registerMenu" (ngSubmit)="register()">
   <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
     <div class="text text-center mb-5">
@@ -12,6 +11,7 @@
         <input id="email" type="text" pInputText class="w-full mb-3" formControlName="email" [ngClass]="{'ng-dirty': email!.invalid && email!.touched}">
         <div *ngIf="email!.invalid && (email!.dirty || email!.touched)">
           <p *ngIf="email!.errors?.['required']" class="p-error mt-0">Email é obrigatório</p>
+          <p *ngIf="email!.errors?.['email']" class="p-error mt-0">Email inválido</p>
         </div>
       </div>
 
@@ -29,6 +29,7 @@
         <input id="phoneNumber" type="text" pInputText class="w-full mb-3" formControlName="phoneNumber" [ngClass]="{'ng-dirty': phoneNumber!.invalid && phoneNumber!.touched}">
         <div *ngIf="phoneNumber!.invalid && (phoneNumber!.dirty || phoneNumber!.touched)">
           <p *ngIf="phoneNumber!.errors?.['required']" class="p-error mt-0">Nº de telemovel obrigatório</p>
+          <p *ngIf="phoneNumber!.errors?.['pattern']" class="text-danger">Nº de telemovel só pode conter números</p>
         </div>
       </div>
 
@@ -51,7 +52,7 @@
       </div>
 
       <div>
-        <label class="block text-900 font-medium mb-2">Distrito</label>
+        <label class="block text-900 font-medium mb-2 ">Distrito</label>
         <p-dropdown [options]="districts" optionLabel="districtName" placeholder="Selecione o distrito" formControlName="district" [ngClass]="{'ng-dirty': district!.invalid && district!.touched}"></p-dropdown>
         <div *ngIf="district!.invalid && (district!.dirty || district!.touched)">
           <p *ngIf="district!.errors?.['required']" class="p-error mt-0">Escolha um distrito</p>

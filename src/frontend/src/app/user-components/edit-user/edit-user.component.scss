@@ -1,0 +1,15 @@
+.registerMenu {
+  margin-top: 30vh;
+  font-family: Inter, sans-serif;
+}
+
+::ng-deep .p-dropdown{
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.text {
+  span, a {
+    padding-top: 0;
+  }
+}

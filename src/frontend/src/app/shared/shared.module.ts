@@ -8,7 +8,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {AvatarModule} from "primeng/avatar";
 import {MenuModule} from "primeng/menu";
 import {FontAwesomeTestingModule} from "@fortawesome/angular-fontawesome/testing";
-import {HomeComponent } from './home/home.component';
+import {HomeComponent } from '../home/home.component';
 import {InputTextModule} from "primeng/inputtext";
 import {DividerModule} from 'primeng/divider';
 import {CardModule} from "primeng/card";
@@ -21,8 +21,10 @@ import {MessageService} from "primeng/api";
 import {RippleModule} from "primeng/ripple";
 import {DropdownModule} from "primeng/dropdown";
 import {HttpClientModule} from "@angular/common/http";
-import { ResetPasswordComponent } from './auth-page/reset-password/reset-password.component';
-import {UserProfileComponent} from "../user-profile/user-profile.component";
+import {ResetPasswordComponent } from './auth-page/reset-password/reset-password.component';
+import {RatingModule} from "primeng/rating";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
 
 @NgModule({
   declarations: [
@@ -30,8 +32,8 @@ import {UserProfileComponent} from "../user-profile/user-profile.component";
     HomeComponent,
     AuthPageComponent,
     RegisterComponent,
-    UserProfileComponent,
     ResetPasswordComponent,
+    PageNotFoundComponent
   ],
     imports: [
         CommonModule,
@@ -49,7 +51,8 @@ import {UserProfileComponent} from "../user-profile/user-profile.component";
         CheckboxModule,
         RippleModule,
         DropdownModule,
-        HttpClientModule
+        HttpClientModule,
+        RatingModule
     ],
   exports: [
     NavbarComponent,

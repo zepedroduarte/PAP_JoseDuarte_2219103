@@ -1,0 +1,32 @@
+.profile {
+  margin-top: 27vh;
+  font-family: Inter, sans-serif;
+}
+
+.image-upload {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  overflow: hidden;
+
+  input[type="file"] {
+    display: none;
+  }
+}
+
+.user {
+  color: #333355;
+}
+
+.userInfo{
+  color: #333355;
+}
+
+.userAchivements {
+  h2{
+    color:#333355;
+  }
+}
+
+
+

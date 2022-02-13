@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from  "@fortawesome/free-solid-svg-icons"
 import {faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import {AuthService} from "../shared/services/auth-service.service";
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
   faPlus = faPlus;
   faEnvelope = faEnvelope;
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
   }

@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required, Validators.maxLength(100)]],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"),]],
       password: ['', [Validators.required, passwordValidator('confirmPassword', true), Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, passwordValidator('password')]],
       district: ['', Validators.required]
@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
           }
 
           this.authService.signUpDatabase(userData).subscribe(
-            (response) => {
+            () => {
               this.alertAccountCreated()
             }
           )
