@@ -1,0 +1,15 @@
+<div class="advertsBody flex justify-content-center">
+  <div class="surface-card p-4 shadow-2 border-round lg:w-7">
+    <button class="mb-5" pButton pRipple label="Voltar" icon="pi pi-arrow-left" [routerLink]='["/home"]'></button>
+    <div>
+      <h2 class="title">Meus Anuncios</h2>
+      <div *ngFor="let advert of advertsArray" class="advert flex surface-card p-4 mb-3 shadow-2 border-round w-full">
+        <img [src]="advert.productsPhotoUrl" class="productImage">
+        <div class="ml-4">
+          <p class="advertTitle">{{ advert.productsTitle }}</p>
+          <h3> {{ advert.productsPrice}}€ </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {CreateUser} from "../models/create-user";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CreateAdvert} from "../models/create-advert";
 import {Observable} from "rxjs";
 import {Categories} from "../models/categories";
+import {GetAdvert} from "../models/get-advert";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +24,13 @@ export class AdvertService {
                                 .append( 'Authorization', 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken)
     }
     return this.http.post('https://localhost:5001/advert', JSON.stringify(data), httpOptions)
+  }
+
+  getAdvert():Observable<GetAdvert[]>{
+    const httpOptions = {
+      headers: new HttpHeaders({'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken})
+    }
+
+    return this.http.get<GetAdvert[]>('https://localhost:5001/advert', httpOptions)
   }
 }

@@ -11,3 +11,5 @@ export interface Advert {
   productsPrice: number,
   productsUserId: number
 }
+
+

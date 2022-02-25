@@ -86,7 +86,23 @@ namespace backend.Controllers
         {
             string uid = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
             
-            string getAdvert = "SELECT ProductsTitle, ProductsGender, KidsHeavenDB.Categories.CategoryName, ProductsDescription, ProductsEmail, ProductsPhoneNumber, KidsHeavenDB.MapLocations.MapLocationsLat,  KidsHeavenDB.MapLocations.MapLocationsLng, ProductsPhotoUrl, ProductsPrice, ProductsUserId FROM KidsHeavenDB.Products JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId WHERE KidsHeavenDB.UserAccounts.UserFirebaseUid = @uid";
+            string getAdvert = @"
+            SELECT ProductsTitle, 
+                   ProductsGender, 
+                   KidsHeavenDB.Categories.CategoryName, 
+                   ProductsDescription, 
+                   ProductsEmail, 
+                   ProductsPhoneNumber, 
+                   KidsHeavenDB.MapLocations.MapLocationsLat,  
+                   KidsHeavenDB.MapLocations.MapLocationsLng, 
+                   ProductsPhotoUrl, 
+                   ProductsPrice, 
+                   ProductsUserId 
+            FROM KidsHeavenDB.Products 
+                JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
+                JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
+                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId 
+            WHERE KidsHeavenDB.UserAccounts.UserFirebaseUid = @uid";
 
             try
             {

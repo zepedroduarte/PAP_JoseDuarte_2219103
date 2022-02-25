@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
     this.items = [
       {label: 'Perfil', icon: 'pi pi-fw pi-user', command: (click) => [this.router.navigate(['/user'])]},
       {label: 'Mensagens', icon: 'pi pi-fw pi-comments'},
-      {label: 'Meus Anuncios', icon: 'pi pi-fw pi-briefcase'},
+      {label: 'Meus Anuncios', icon: 'pi pi-fw pi-briefcase', command: (click) => [this.router.navigate(['/adverts/userAdvert'])]},
       {label: 'Favoritos', icon: 'pi pi-fw pi-heart'},
       {
         label: 'Sair', icon: 'pi pi-fw pi-sign-out', command: (click) => {

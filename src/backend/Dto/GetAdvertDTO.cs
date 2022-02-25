@@ -14,9 +14,9 @@
      
         public string ProductsPhoneNumber { get; set; }
       
-        public float MapLocationLat { get; set; }
+        public float MapLocationsLat { get; set; }
         
-        public float MapLocationLng { get; set; }
+        public float MapLocationsLng { get; set; }
        
         public string ProductsPhotoUrl { get; set; }
         

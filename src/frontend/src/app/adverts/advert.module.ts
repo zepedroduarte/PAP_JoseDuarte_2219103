@@ -9,12 +9,14 @@ import {RippleModule} from "primeng/ripple";
 import {DropdownModule} from "primeng/dropdown";
 import {GMapModule} from "primeng/gmap";
 import {InputTextareaModule} from "primeng/inputtextarea";
-
+import {UserAdvertsComponent} from "./user-adverts/user-adverts.component";
+import {PanelModule} from 'primeng/panel';
 
 
 @NgModule({
   declarations: [
-    CreateAdvertComponent
+    CreateAdvertComponent,
+    UserAdvertsComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     RippleModule,
     DropdownModule,
     GMapModule,
-    InputTextareaModule
+    InputTextareaModule,
+    PanelModule
   ],
   providers: [
 

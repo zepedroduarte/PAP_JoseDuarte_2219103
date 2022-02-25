@@ -112,11 +112,22 @@ namespace backend.Controllers
         {
             string uid = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
 
-            string getUser = "SELECT UserId, UserFirebaseUid, UserName, UserEmail, UserPhoneNumber, UserPhotoUrl, KidsHeavenDB.Districts.DistrictName, DistrictId FROM KidsHeavenDB.UserAccounts JOIN KidsHeavenDB.Districts on KidsHeavenDB.UserAccounts.DistrictId = KidsHeavenDB.Districts.DistrictsId WHERE UserFirebaseUid = @uid";
+            string getUser = @"
+            SELECT UserId, 
+                   UserFirebaseUid, 
+                   UserName, 
+                   UserEmail, 
+                   UserPhoneNumber, 
+                   UserPhotoUrl, 
+                   KidsHeavenDB.Districts.DistrictName, 
+                   DistrictId 
+            FROM KidsHeavenDB.UserAccounts 
+                JOIN KidsHeavenDB.Districts on KidsHeavenDB.UserAccounts.DistrictId = KidsHeavenDB.Districts.DistrictsId 
+            WHERE UserFirebaseUid = @uid";
 
             try
             {
-                var user = await _connection.QueryAsync<UserInfoDTO[]>(getUser, new {uid = uid});
+                var user = await _connection.QueryAsync<UserInfoDTO>(getUser, new {uid = uid});
                 return Ok(user.FirstOrDefault());
             }
             catch (SqlException ex)
