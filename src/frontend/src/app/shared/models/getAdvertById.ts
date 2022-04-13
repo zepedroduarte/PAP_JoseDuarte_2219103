@@ -1,8 +1,5 @@
-export interface GetAdvert {
-  productsId: number,
+export interface GetAdvertById {
   productsTitle: string,
-  productsGender: string,
-  categoryName: string,
   productsDescription: string,
   productsEmail: string,
   productsPhoneNumber: string,
@@ -11,4 +8,6 @@ export interface GetAdvert {
   productsPhotoUrl: string,
   productsPrice: number,
   productsUserId: number,
+  userPhotoUrl: string,
+  userName: string,
 }

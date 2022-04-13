@@ -11,12 +11,18 @@ import {GMapModule} from "primeng/gmap";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {UserAdvertsComponent} from "./user-adverts/user-adverts.component";
 import {PanelModule} from 'primeng/panel';
+import {PaginatorModule} from "primeng/paginator";
+import {AdvertComponent} from "./advert/advert.component";
+import {AvatarModule} from "primeng/avatar";
+import {DividerModule} from "primeng/divider";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
   declarations: [
     CreateAdvertComponent,
-    UserAdvertsComponent
+    UserAdvertsComponent,
+    AdvertComponent,
   ],
   imports: [
     CommonModule,
@@ -28,7 +34,11 @@ import {PanelModule} from 'primeng/panel';
     DropdownModule,
     GMapModule,
     InputTextareaModule,
-    PanelModule
+    PanelModule,
+    PaginatorModule,
+    AvatarModule,
+    DividerModule,
+    FontAwesomeModule
   ],
   providers: [
 

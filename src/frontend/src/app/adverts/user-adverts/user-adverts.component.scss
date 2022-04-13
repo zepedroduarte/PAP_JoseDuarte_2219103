@@ -1,10 +1,17 @@
 .advertsBody {
   margin-top: 15vh;
+  margin-bottom: 10vh;
 }
 
 .advert {
   max-height: 200px;
 }
+
+.advertDiv :hover {
+  cursor: pointer;
+}
+
+
 
 .title {
   color: #333355;

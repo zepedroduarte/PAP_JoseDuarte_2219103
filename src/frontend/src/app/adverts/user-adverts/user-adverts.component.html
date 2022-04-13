@@ -3,13 +3,16 @@
     <button class="mb-5" pButton pRipple label="Voltar" icon="pi pi-arrow-left" [routerLink]='["/home"]'></button>
     <div>
       <h2 class="title">Meus Anuncios</h2>
-      <div *ngFor="let advert of advertsArray" class="advert flex surface-card p-4 mb-3 shadow-2 border-round w-full">
-        <img [src]="advert.productsPhotoUrl" class="productImage">
-        <div class="ml-4">
-          <p class="advertTitle">{{ advert.productsTitle }}</p>
-          <h3> {{ advert.productsPrice}}€ </h3>
+      <div class="advertDiv">
+        <div [routerLink]='["/adverts/advert", advert.productsId]' *ngFor="let advert of advertsArray?.data" class="advert flex surface-card p-4 mb-3 shadow-2 border-round w-full">
+          <img [src]="advert.productsPhotoUrl" class="productImage">
+          <div class="ml-4">
+            <p class="advertTitle">{{ advert.productsTitle }}</p>
+            <h3> {{ advert.productsPrice }}€ </h3>
+          </div>
         </div>
       </div>
+      <p-paginator [showFirstLastIcon]="false" [rows]="this.pageSize" [totalRecords]="this.totalCount" (onPageChange)="getAdverts($event.page + 1)"></p-paginator>
     </div>
   </div>
 </div>

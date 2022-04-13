@@ -56,12 +56,11 @@ namespace backend
                 });
             });
             
-            services.AddCors(options => options.AddDefaultPolicy(builder => 
+            services.AddCors(options => options.AddDefaultPolicy(builder =>
             {
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
-                
             }));
 
             services.AddRouting(options => options.LowercaseUrls = true);

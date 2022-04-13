@@ -8,16 +8,21 @@ import {AdvertService} from "../../shared/services/advert-service.service";
 })
 export class UserAdvertsComponent implements OnInit {
 
-  advertsArray: any[] = [];
+  advertsArray: any;
+
+  totalCount!: number;
+  pageSize!: number;
 
   constructor(private advertService: AdvertService) { }
 
   ngOnInit(): void {
-    this.getAdverts();
+    this.getAdverts(1);
   }
 
-  getAdverts() {
-    this.advertService.getAdvert().subscribe(data => {
+  getAdverts(currentPageNumber: number) {
+    this.advertService.getAdverts(currentPageNumber).subscribe(data => {
+      this.pageSize = data.pageSize
+      this.totalCount = data.totalCount
       this.advertsArray = data;
     })
   }

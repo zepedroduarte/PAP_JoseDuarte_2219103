@@ -1,6 +1,6 @@
 ﻿namespace backend.Dto
 {
-    public class GetAdvertDTO
+    public class DeleteAdvert
     {
         public int ProductsId { get; set; }
         
@@ -8,20 +8,20 @@
      
         public string ProductsGender { get; set; }
      
-        public string CategoryName { get; set; }
+        public int ProductsCategoryId { get; set; }
    
         public string ProductsDescription { get; set; }
       
         public string ProductsEmail { get; set; }
      
         public string ProductsPhoneNumber { get; set; }
-      
-        public float MapLocationsLat { get; set; }
         
-        public float MapLocationsLng { get; set; }
+        public int ProductsLocationId { get; set; }
        
         public string ProductsPhotoUrl { get; set; }
         
-        public int ProductsPrice { get; set; }
+        public int ProductsPrice { get; set; } 
+   
+        public int ProductsUserId { get; set; }
     }
 }

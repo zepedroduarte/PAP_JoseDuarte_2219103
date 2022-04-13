@@ -84,7 +84,7 @@ namespace backend.Controllers
                 UserPhotoUrl = user.UserPhotoUrl,
                 DistrictId = user.DistrictId,
             };
-
+ 
             try
             {
                 bool wasUpdated = await _connection.UpdateAsync(userCredentials);
