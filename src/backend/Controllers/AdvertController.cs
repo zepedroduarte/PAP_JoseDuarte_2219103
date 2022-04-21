@@ -144,6 +144,7 @@ namespace backend.Controllers
 
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetAdvertById(int id)
         {
             string getAdvert = @"
@@ -154,10 +155,12 @@ namespace backend.Controllers
                     KidsHeavenDB.MapLocations.MapLocationsLat,  
                     KidsHeavenDB.MapLocations.MapLocationsLng, 
                     ProductsPhotoUrl, 
-                    ProductsPrice, 
+                    ProductsPrice,
+                    ProductsGender,
                     ProductsUserId, 
                     KidsHeavenDB.UserAccounts.UserPhotoUrl,
-                    KidsHeavenDB.UserAccounts.UserName
+                    KidsHeavenDB.UserAccounts.UserName,
+                    KidsHeavenDB.Categories.categoryName
             FROM KidsHeavenDB.Products 
                 JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
                 JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
@@ -181,6 +184,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAdvert(int id)
         {
             IActionResult response = Unauthorized();
@@ -212,35 +216,51 @@ namespace backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAdvert([FromBody] int id)
+        [Authorize]
+        public async Task<IActionResult> UpdateAdvert([FromBody] UpdateAdvertDTO advert, int id)
         {
+            IActionResult response = Unauthorized();
+            
             try
             {
-                IActionResult response = Unauthorized();
+                var advertId = await _connection.GetAsync<Advert>(id);
 
-                var productData = await _connection.GetAsync<UpdateAdvertDTO>(id);
+                var locationsId = await _connection.GetAsync<Locations>(advertId.ProductsLocationId);
 
-                UpdateAdvertDTO advert = new UpdateAdvertDTO
+                Locations locationsData = new Locations()
                 {
-                    ProductsTitle = productData.ProductsTitle,
-                    ProductsGender = productData.ProductsGender,
-                    ProductsDescription = productData.ProductsDescription,
-                    ProductsEmail = productData.ProductsEmail,
-                    ProductsPrice = productData.ProductsPrice,
-                    ProductsCategoryId = productData.ProductsCategoryId,
-                    ProductsPhoneNumber = productData.ProductsPhoneNumber,
-                    ProductsPhotoUrl = productData.ProductsPhotoUrl,
-                    lat = productData.lat,
-                    lng = productData.lng
+                    Id = locationsId.Id,
+                    MapLocationsLat = advert.lat,
+                    MapLocationsLng = advert.lng,
                 };
-
-                bool wasUpdated = await _connection.UpdateAsync(advert);
+                
+                bool wasUpdated = await _connection.UpdateAsync(locationsData);
 
                 if (wasUpdated)
                 {
-                    response = NoContent();
+                    Advert advertData = new Advert()
+                    {
+                        ProductsId = id,
+                        ProductsTitle = advert.ProductsTitle,
+                        ProductsGender = advert.ProductsGender,
+                        ProductsDescription = advert.ProductsDescription,
+                        ProductsEmail = advert.ProductsEmail,
+                        ProductsPrice = advert.ProductsPrice,
+                        ProductsCategoryId = advert.ProductsCategoryId,
+                        ProductsLocationId = locationsData.Id,
+                        ProductsPhoneNumber = advert.ProductsPhoneNumber,
+                        ProductsPhotoUrl = advert.ProductsPhotoUrl,
+                        ProductsUserId = advertId.ProductsUserId
+                    };
+
+                    bool advertWasUpdated = await _connection.UpdateAsync(advertData);
+
+                    if (advertWasUpdated)
+                    {
+                        response = NoContent();
+                    }
                 }
-                
+
                 return response;
             }
             catch (SqlException ex)
@@ -251,6 +271,44 @@ namespace backend.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+        
+        [HttpGet("All")]
+        [Authorize]
+        public async Task<IActionResult> GetAllAdverts()
+        {
+            string getAdvert = @"
+            SELECT ProductsTitle, 
+                    ProductsDescription, 
+                    ProductsEmail, 
+                    ProductsPhoneNumber, 
+                    KidsHeavenDB.MapLocations.MapLocationsLat,  
+                    KidsHeavenDB.MapLocations.MapLocationsLng, 
+                    ProductsPhotoUrl, 
+                    ProductsPrice,
+                    ProductsGender,
+                    ProductsUserId, 
+                    KidsHeavenDB.UserAccounts.UserPhotoUrl,
+                    KidsHeavenDB.UserAccounts.UserName,
+                    KidsHeavenDB.Categories.categoryName
+            FROM KidsHeavenDB.Products 
+                JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
+                JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
+                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId";
+            try
+            {
+                var advertData = await _connection.QueryAsync<GetOneAdvertDTO>(getAdvert);
+                return Ok(advertData);
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
         }
     }
 }

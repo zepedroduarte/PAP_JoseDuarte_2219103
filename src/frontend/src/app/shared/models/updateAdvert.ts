@@ -1,15 +1,12 @@
-export interface GetAdvertById {
+export interface UpdateAdvert {
   productsTitle: string,
   productsDescription: string,
   productsEmail: string,
   productsPhoneNumber: string,
-  mapLocationsLat: number,
-  mapLocationsLng: number,
+  lat: number,
+  lng: number,
   productsPhotoUrl: string,
   productsPrice: number,
-  productsUserId: number,
-  userPhotoUrl: string,
-  userName: string,
-  categoryName: string,
   productsGender: string,
+  productsCategoryId: number,
 }

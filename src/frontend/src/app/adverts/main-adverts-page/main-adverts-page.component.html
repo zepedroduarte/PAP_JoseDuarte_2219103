@@ -1,0 +1,25 @@
+<div class="grid w-9 m-auto flex-column mt-6">
+  <div class="col-12 flex flex-row justify-content-between">
+    <button pButton type="button" label="Click"></button>
+    <button pButton type="button" label="Click"></button>
+  </div>
+  <div *ngFor="let advert of advertsData">
+    <div class="col-12">
+      <div class="surface-card shadow-2 p-3 border-round fonte relative">
+        <div class="flex justify-content-between">
+          <div class="flex flex-row align-content-start">
+            <img src="{{advert.productsPhotoUrl}}" alt="ad-image" [style]="{'width':'12rem', 'max-height':'10rem'}">
+            <p class="m-0 ml-3">{{advert.productsTitle}}</p>
+          </div>
+          <div>
+            <p> {{ advert.productsPrice }}€ </p>
+            <div class="absolute bottom-0 right-0 p-3 flex flex-column align-items-center">
+              <i class="pi pi-pencil mb-3 cursor-pointer pencil"></i>
+              <i class="pi pi-trash cursor-pointer bin"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "eUJ5Fmw3KpWXo78B/SF5vPvpxIUFYnSsLdJc9R9LJY/rWclhu59Xc7NX05zhTc9s5Re0oEjb6Q8xzFAq08xVMg==",
+  "dgSpecHash": "Vhzcmw+aKC7KLMYt+xEf6oj08JU/3LPYggcBH/Ez1QZ9f9L69xNzOvooe12g00ZKARfmK2+HkOy6xHBMuVvuqw==",
   "success": true,
   "projectFilePath": "C:\\Users\\zeped\\Documents\\GitHub\\PAP_JoseDuarte_2219103\\src\\backend\\backend.csproj",
   "expectedPackageFiles": [
@@ -29,8 +29,7 @@
     "C:\\Users\\zeped\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.7.1\\system.identitymodel.tokens.jwt.6.7.1.nupkg.sha512",
     "C:\\Users\\zeped\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\zeped\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
-    "C:\\Users\\zeped\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
-    "C:\\Users\\zeped\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
+    "C:\\Users\\zeped\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

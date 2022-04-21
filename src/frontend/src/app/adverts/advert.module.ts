@@ -16,6 +16,8 @@ import {AdvertComponent} from "./advert/advert.component";
 import {AvatarModule} from "primeng/avatar";
 import {DividerModule} from "primeng/divider";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {EditAdvertComponent} from "./edit-advert/edit-advert.component";
+import {MainAdvertsPageComponent} from "./main-adverts-page/main-adverts-page.component";
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     CreateAdvertComponent,
     UserAdvertsComponent,
     AdvertComponent,
+    EditAdvertComponent,
+    MainAdvertsPageComponent,
   ],
   imports: [
     CommonModule,

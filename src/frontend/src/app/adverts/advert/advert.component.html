@@ -4,7 +4,7 @@
       <button class="mb-4" pButton pRipple label="Voltar" icon="pi pi-arrow-left" [routerLink]='["/adverts/userAdverts"]'></button>
       <h1 class="price pb-3">{{ advertData?.productsTitle }}</h1>
       <h2 class="price">{{ advertData?.productsPrice }}€</h2>
-      <div class="flex flex-column align-content-between ">
+      <div class="flex flex-column align-content-between">
         <h3 class="titles pt-5">Descrição</h3>
         <div>{{ advertData?.productsDescription }}</div>
         <p-divider></p-divider>
@@ -26,7 +26,7 @@
     </div>
     <div class="col-6 md:col-6 overflow-hidden" style="padding-top: 0">
       <button class="mb-4 ml-3" style="float:right" pButton pRipple label="Eliminar" icon="pi pi-times" (click)="deleteAdvertButton()"></button>
-      <button class="mb-4" style="float:right" pButton pRipple label="Editar" icon="pi pi-pencil" [routerLink]='["/adverts/userAdverts"]'></button>
+      <button class="mb-4" style="float:right" pButton pRipple label="Editar" icon="pi pi-pencil" [routerLink]='["/adverts/editAdvert", id]'></button>
       <img [src]="advertData?.productsPhotoUrl " alt="Image" class="md:ml-auto block md:h-full" style="width: 100%">
     </div>
     <div class="col-12 mt-3">

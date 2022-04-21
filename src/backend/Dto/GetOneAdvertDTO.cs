@@ -23,5 +23,9 @@
         public string UserPhotoUrl { get; set; }
         
         public string UserName{ get; set; }
+
+        public string CategoryName { get; set; }
+        
+        public string ProductsGender { get; set; }
     }
 }

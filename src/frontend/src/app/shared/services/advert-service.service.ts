@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Categories} from "../models/categories";
 import {GetAdvertPaginated} from "../models/GetAdvertPaginated";
 import {GetAdvertById} from "../models/getAdvertById";
+import {UpdateAdvert} from "../models/updateAdvert";
 
 
 
@@ -51,5 +52,23 @@ export class AdvertService {
     }
 
     return this.http.delete(`https://localhost:5001/advert/${id}`, httpOptions)
+  }
+
+  editAdvert(advertData:any, id: number) {
+    const httpOptions = {
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+                                .append( 'Authorization', 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken)
+    }
+
+
+    return this.http.put<UpdateAdvert>(`https://localhost:5001/advert/${id}`, JSON.stringify(advertData), httpOptions)
+  }
+
+  getAllAdverts() {
+    const httpOptions = {
+      headers: new HttpHeaders({'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken})
+    }
+
+    return this.http.get<GetAdvertById[]>(`https://localhost:5001/advert/all`, httpOptions)
   }
 }
