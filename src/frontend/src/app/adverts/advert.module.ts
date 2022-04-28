@@ -18,6 +18,7 @@ import {DividerModule} from "primeng/divider";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {EditAdvertComponent} from "./edit-advert/edit-advert.component";
 import {MainAdvertsPageComponent} from "./main-adverts-page/main-adverts-page.component";
+import {SidebarModule} from "primeng/sidebar";
 
 
 @NgModule({
@@ -28,22 +29,23 @@ import {MainAdvertsPageComponent} from "./main-adverts-page/main-adverts-page.co
     EditAdvertComponent,
     MainAdvertsPageComponent,
   ],
-  imports: [
-    CommonModule,
-    AdvertRoutingModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    ButtonModule,
-    RippleModule,
-    DropdownModule,
-    GMapModule,
-    InputTextareaModule,
-    PanelModule,
-    PaginatorModule,
-    AvatarModule,
-    DividerModule,
-    FontAwesomeModule
-  ],
+    imports: [
+        CommonModule,
+        AdvertRoutingModule,
+        ReactiveFormsModule,
+        InputTextModule,
+        ButtonModule,
+        RippleModule,
+        DropdownModule,
+        GMapModule,
+        InputTextareaModule,
+        PanelModule,
+        PaginatorModule,
+        AvatarModule,
+        DividerModule,
+        FontAwesomeModule,
+        SidebarModule
+    ],
   providers: [
 
   ]

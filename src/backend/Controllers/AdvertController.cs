@@ -275,8 +275,12 @@ namespace backend.Controllers
         
         [HttpGet("All")]
         [Authorize]
-        public async Task<IActionResult> GetAllAdverts()
+        public async Task<IActionResult> GetAllAdverts(int currentPageNumber)
         {
+            int pagesize = 10;
+
+            int skip = (currentPageNumber - 1) * pagesize;
+            
             string getAdvert = @"
             SELECT ProductsTitle, 
                     ProductsDescription, 
@@ -294,11 +298,27 @@ namespace backend.Controllers
             FROM KidsHeavenDB.Products 
                 JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
                 JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
-                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId";
+                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId
+                ORDER BY ProductsTitle
+                OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
+
+            string count = @"SELECT COUNT(*) FROM KidsHeavenDB.Products";
+            
             try
             {
-                var advertData = await _connection.QueryAsync<GetOneAdvertDTO>(getAdvert);
-                return Ok(advertData);
+                var reader = await _connection.QueryAsync<GetAdvertDTO>(getAdvert, new {Skip = skip, Take = pagesize});
+                
+                int totalCount = _connection.QueryAsync<int>(count).Result.FirstOrDefault();
+
+                Pagination<GetAdvertDTO> pagination = new Pagination<GetAdvertDTO>
+                {
+                    TotalCount = totalCount,
+                    Data = reader,
+                    PageSize = pagesize,
+                    CurrentPageNumber = currentPageNumber
+                };
+
+                return Ok(pagination);
             }
             catch (SqlException ex)
             {

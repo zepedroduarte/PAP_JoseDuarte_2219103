@@ -6,6 +6,7 @@ import {Categories} from "../models/categories";
 import {GetAdvertPaginated} from "../models/GetAdvertPaginated";
 import {GetAdvertById} from "../models/getAdvertById";
 import {UpdateAdvert} from "../models/updateAdvert";
+import {GetAdvert} from "../models/get-advert";
 
 
 
@@ -64,11 +65,11 @@ export class AdvertService {
     return this.http.put<UpdateAdvert>(`https://localhost:5001/advert/${id}`, JSON.stringify(advertData), httpOptions)
   }
 
-  getAllAdverts() {
+  getAllAdverts(currentPage: number):Observable<GetAdvertPaginated> {
     const httpOptions = {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken})
     }
 
-    return this.http.get<GetAdvertById[]>(`https://localhost:5001/advert/all`, httpOptions)
+    return this.http.get<GetAdvertPaginated>(`https://localhost:5001/advert/all?currentPageNumber=${currentPage}`, httpOptions)
   }
 }

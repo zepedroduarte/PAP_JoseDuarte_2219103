@@ -1,0 +1,49 @@
+.advertsBody {
+  margin-top: 15vh;
+  margin-bottom: 10vh;
+}
+
+.advert {
+  max-height: 200px;
+}
+
+.advertDiv :hover {
+  cursor: pointer;
+}
+
+
+
+.title {
+  color: #333355;
+}
+
+.productImage {
+  display: flex;
+  width: 150px;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.advertTitle {
+  font-size: 1.7em;
+}
+
+.search-bar {
+  input{
+    width: 40vw;
+    border: 1px solid #6366F1;
+  }
+
+  .search-content {
+    padding-top: 2vh;
+    margin-bottom: 6vh;
+  }
+}
+
+.search-icon {
+  padding-right: 6px;
+}
+
+.plus-icon {
+  padding-right: 6px;
+}
