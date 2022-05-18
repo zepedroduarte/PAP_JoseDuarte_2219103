@@ -60,7 +60,6 @@ export class EditAdvertComponent implements OnInit {
     this.advertService.getCategories().subscribe(
       data => {
         this.categories = data;
-        console.log(data);
       }
     )
 

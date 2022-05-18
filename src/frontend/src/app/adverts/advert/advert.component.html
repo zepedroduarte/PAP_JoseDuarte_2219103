@@ -1,11 +1,11 @@
 <div class="advertBody flex justify-content-center">
   <div class="surface-card p-4 shadow-2 border-round lg:w-7 grid">
     <div class="p-0 col-6 md:col-6">
-      <button class="mb-4" pButton pRipple label="Voltar" icon="pi pi-arrow-left" [routerLink]='["/adverts/userAdverts"]'></button>
-      <h1 class="price pb-3">{{ advertData?.productsTitle }}</h1>
-      <h2 class="price">{{ advertData?.productsPrice }}€</h2>
+      <button class="mb-4" pButton pRipple label="Voltar" icon="pi pi-arrow-left" (click)='back()'></button>
+      <h1 style="font-size: 2.5em; font-weight: lighter" class="m-0 pb-3">{{ advertData?.productsTitle }}</h1>
+      <h2 style="font-size: 1.5em; font-weight: bold">{{ advertData?.productsPrice }}€</h2>
       <div class="flex flex-column align-content-between">
-        <h3 class="titles pt-5">Descrição</h3>
+        <h3 style="font-size: 1.5em; font-weight: lighter" class="titles pt-5">Descrição</h3>
         <div>{{ advertData?.productsDescription }}</div>
         <p-divider></p-divider>
         <div class="userInfo flex align-content-end m-0 grid">
@@ -25,8 +25,20 @@
       </div>
     </div>
     <div class="col-6 md:col-6 overflow-hidden" style="padding-top: 0">
-      <button class="mb-4 ml-3" style="float:right" pButton pRipple label="Eliminar" icon="pi pi-times" (click)="deleteAdvertButton()"></button>
-      <button class="mb-4" style="float:right" pButton pRipple label="Editar" icon="pi pi-pencil" [routerLink]='["/adverts/editAdvert", id]'></button>
+      <div *ngIf="isOwner">
+        <button class="mb-4 ml-3" style="float:right" pButton pRipple label="Eliminar" icon="pi pi-times" (click)="deleteAdvertButton()"></button>
+        <button class="mb-4" style="float:right" pButton pRipple label="Editar" icon="pi pi-pencil" [routerLink]='["/adverts/editAdvert", id]'></button>
+      </div>
+      <div class="cursor-pointer" *ngIf="isOwner == false">
+        <div>
+          <div *ngIf="favoriteAdverts[0]?.productId == this.id">
+              <i (click)="advertFavorite()" class="flex pi pi-heart-fill mb-6 text-3xl text-pink-600  justify-content-end mr-1"></i>
+          </div>
+          <div *ngIf="favoriteAdverts[0]?.productId == undefined">
+              <i (click)="advertFavorite()" class="flex pi pi-heart mb-6 text-3xl justify-content-end mr-1" style="right: 0!important;"></i>
+          </div>
+        </div>
+      </div>
       <img [src]="advertData?.productsPhotoUrl " alt="Image" class="md:ml-auto block md:h-full" style="width: 100%">
     </div>
     <div class="col-12 mt-3">

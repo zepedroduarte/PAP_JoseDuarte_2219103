@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -28,7 +30,6 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateAdvert([FromBody] CreateAdvertDTO advert)
         {
             IActionResult response = Unauthorized();
@@ -80,7 +81,6 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAdverts(int currentPageNumber)
         {
             int pagesize = 3;
@@ -117,9 +117,7 @@ namespace backend.Controllers
 
             try
             {
-                var reader =
-                    await _connection.QueryAsync<GetAdvertDTO>(getAdvert,
-                        new {Skip = skip, Take = pagesize, uid = uid});
+                var reader = await _connection.QueryAsync<GetAdvertDTO>(getAdvert, new {Skip = skip, Take = pagesize, uid = uid});
                 int totalCount = _connection.QueryAsync<int>(count, new {uid = uid}).Result.FirstOrDefault();
 
                 Pagination<GetAdvertDTO> pagination = new Pagination<GetAdvertDTO>
@@ -141,14 +139,12 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
-
+        
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<IActionResult> GetAdvertById(int id)
         {
             string getAdvert = @"
-            SELECT ProductsTitle, 
+            SELECT  ProductsTitle, 
                     ProductsDescription, 
                     ProductsEmail, 
                     ProductsPhoneNumber, 
@@ -184,7 +180,6 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         public async Task<IActionResult> DeleteAdvert(int id)
         {
             IActionResult response = Unauthorized();
@@ -216,7 +211,6 @@ namespace backend.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
         public async Task<IActionResult> UpdateAdvert([FromBody] UpdateAdvertDTO advert, int id)
         {
             IActionResult response = Unauthorized();
@@ -273,8 +267,91 @@ namespace backend.Controllers
             }
         }
         
+        [HttpGet("AllFiltered")]
+        public async Task<IActionResult> GetAllAdvertsFiltered(int currentPageNumber, [FromQuery] string gender, [FromQuery] string category, [FromQuery] string minPrice, [FromQuery] string maxPrice, [FromQuery] string title)
+        {
+            int pagesize = 10;
+
+            int skip = (currentPageNumber - 1) * pagesize;
+            
+            string getAdvert = @"
+                SELECT  ProductsId,
+                        ProductsTitle, 
+                        ProductsDescription, 
+                        ProductsEmail, 
+                        ProductsPhoneNumber, 
+                        KidsHeavenDB.MapLocations.MapLocationsLat,  
+                        KidsHeavenDB.MapLocations.MapLocationsLng, 
+                        ProductsPhotoUrl, 
+                        ProductsPrice,
+                        ProductsGender,
+                        ProductsUserId, 
+                        KidsHeavenDB.UserAccounts.UserPhotoUrl,
+                        KidsHeavenDB.UserAccounts.UserName,
+                        KidsHeavenDB.Categories.categoryName
+                FROM KidsHeavenDB.Products 
+	                JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
+	                JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
+	                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId
+                    where 1 = 1";
+
+            if (!string.IsNullOrWhiteSpace(gender))
+            {
+                getAdvert += @" AND ProductsGender = @Gender";
+            }
+            
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                getAdvert += @" AND CategoryName = @Category";
+            }
+            
+            if (!string.IsNullOrWhiteSpace(minPrice))
+            {
+                getAdvert += @" AND ProductsPrice >= @MinPrice";
+            }
+            
+            if (!string.IsNullOrWhiteSpace(maxPrice))
+            {
+                getAdvert += @" AND ProductsPrice <= @MaxPrice";
+            }
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                getAdvert += @" AND ProductsTitle LIKE @Title";
+            }
+
+            getAdvert += @" ORDER BY ProductsTitle OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
+            
+            string count = @"SELECT COUNT(*) FROM KidsHeavenDB.Products";
+            
+            try
+            {
+                var reader = await _connection.QueryAsync<GetAdvertDTO>(getAdvert, new {Skip = skip, Take = pagesize, Title ="%" + title + "%", Gender = gender, Category = category, MinPrice = minPrice, MaxPrice = maxPrice});
+                
+                int totalCount = _connection.QueryAsync<int>(count).Result.FirstOrDefault();
+
+                Pagination<GetAdvertDTO> pagination = new Pagination<GetAdvertDTO>
+                {
+                    TotalCount = totalCount,
+                    Data = reader,
+                    PageSize = pagesize,
+                    CurrentPageNumber = currentPageNumber
+                };
+
+                return Ok(pagination);
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+        }
+
         [HttpGet("All")]
-        [Authorize]
         public async Task<IActionResult> GetAllAdverts(int currentPageNumber)
         {
             int pagesize = 10;
@@ -282,25 +359,25 @@ namespace backend.Controllers
             int skip = (currentPageNumber - 1) * pagesize;
             
             string getAdvert = @"
-            SELECT ProductsTitle, 
-                    ProductsDescription, 
-                    ProductsEmail, 
-                    ProductsPhoneNumber, 
-                    KidsHeavenDB.MapLocations.MapLocationsLat,  
-                    KidsHeavenDB.MapLocations.MapLocationsLng, 
-                    ProductsPhotoUrl, 
-                    ProductsPrice,
-                    ProductsGender,
-                    ProductsUserId, 
-                    KidsHeavenDB.UserAccounts.UserPhotoUrl,
-                    KidsHeavenDB.UserAccounts.UserName,
-                    KidsHeavenDB.Categories.categoryName
-            FROM KidsHeavenDB.Products 
-                JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
-                JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
-                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId
-                ORDER BY ProductsTitle
-                OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
+                SELECT  ProductsId, 
+                        ProductsTitle, 
+                        ProductsDescription, 
+                        ProductsEmail, 
+                        ProductsPhoneNumber, 
+                        KidsHeavenDB.MapLocations.MapLocationsLat,  
+                        KidsHeavenDB.MapLocations.MapLocationsLng, 
+                        ProductsPhotoUrl, 
+                        ProductsPrice,
+                        ProductsGender,
+                        ProductsUserId, 
+                        KidsHeavenDB.UserAccounts.UserPhotoUrl,
+                        KidsHeavenDB.UserAccounts.UserName,
+                        KidsHeavenDB.Categories.categoryName
+                FROM KidsHeavenDB.Products 
+	                JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
+	                JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
+	                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId
+                ORDER BY ProductsTitle OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
 
             string count = @"SELECT COUNT(*) FROM KidsHeavenDB.Products";
             
@@ -330,5 +407,175 @@ namespace backend.Controllers
             }
 
         }
+        
+        [HttpGet("UserFavouriteAdvert")]
+        public async Task<IActionResult> GetUserFavouriteAdvert(int userId, int productId)
+        {
+            IActionResult response = Unauthorized();
+
+            string querry = @"SELECT *
+                                FROM KidsHeavenDB.UserHasFavoriteProduct
+                                WHERE UserHasFavoriteProduct.UserId = @UserId AND UserHasFavoriteProduct.ProductId = @ProductId";
+            
+            try
+            { 
+                var data = await _connection.QueryAsync<UserFavorites>(querry, new {UserId = userId, ProductId = productId});
+                
+                return Ok(data);
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost("UserFavouriteAdvert")]
+        public async Task<IActionResult> UserFavouriteAdvert([FromBody] UserFavorites favorites)
+        {
+            IActionResult response = Unauthorized();    
+            
+            UserFavorites favourits = new UserFavorites()
+            {
+                ProductId = favorites.ProductId,
+                UserId = favorites.UserId,
+            };
+            
+            try
+            { 
+               long id = await _connection.InsertAsync(favourits);
+               
+               if (id > 0)
+               {
+                   response = NoContent();
+               }
+               
+               return response;
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete("UserFavouriteAdvert")]
+        public async Task<IActionResult> DeleteUserFavouriteAdvert(int advertId)
+        {
+            IActionResult response = Unauthorized();
+
+            UserFavorites favorites = new UserFavorites()
+            {
+                ProductId = advertId
+            };
+
+            try
+            {
+                
+                bool wasDeleted = await _connection.DeleteAsync(favorites);
+
+                if (wasDeleted)
+                {
+                    return Ok();
+                }
+
+                return response;
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        
+        [HttpGet("GetAllUserFavouriteAdvert")]
+        [Authorize]
+        public async Task<IActionResult> GetAllUserFavouriteAdvert(int currentPageNumber)
+        {
+             int pagesize = 3;
+
+            int skip = (currentPageNumber - 1) * pagesize;
+
+            string uid = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
+            string getAdvert = @"
+            SELECT KidsHeavenDB.Products.ProductsId, 
+                   KidsHeavenDB.Products.ProductsPrice, 
+                   KidsHeavenDB.Products.ProductsTitle, 
+                   KidsHeavenDB.Products.ProductsPhotoUrl, 
+                   KidsHeavenDB.Products.ProductsUserId 
+            FROM KidsHeavenDB.UserHasFavoriteProduct
+                INNER JOIN KidsHeavenDB.Products ON UserHasFavoriteProduct.ProductId = KidsHeavenDB.Products.ProductsId
+                INNER JOIN KidsHeavenDB.UserAccounts ON UserHasFavoriteProduct.UserId = KidsHeavenDB.UserAccounts.UserId
+            WHERE KidsHeavenDB.UserAccounts.UserFirebaseUid = @Uid
+            ORDER BY KidsHeavenDB.Products.ProductsTitle
+            OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
+
+            string count = @"
+            SELECT COUNT(*) 
+            FROM KidsHeavenDB.UserHasFavoriteProduct
+            INNER JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.UserHasFavoriteProduct.UserId = KidsHeavenDB.UserAccounts.UserId
+            WHERE KidsHeavenDB.UserAccounts.UserFirebaseUid = @Uid";
+
+            try
+            {
+                var reader = await _connection.QueryAsync<UserFavoriteAdvertsDTO>(getAdvert, new {Skip = skip, Take = pagesize, Uid = uid});
+                int totalCount = _connection.QueryAsync<int>(count, new {Uid = uid}).Result.FirstOrDefault();
+
+                Pagination<UserFavoriteAdvertsDTO> pagination = new Pagination<UserFavoriteAdvertsDTO>
+                {
+                    TotalCount = totalCount,
+                    Data = reader,
+                    PageSize = pagesize,
+                    CurrentPageNumber = currentPageNumber
+                };
+
+                return Ok(pagination);
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("MainPageAdverts")]
+        public async Task<IActionResult> GetMainPageAdverts()
+        {
+
+            string querry = @"
+            SELECT TOP 3 KidsHeavenDB.Products.ProductsId, KidsHeavenDB.Products.ProductsPrice, KidsHeavenDB.Products.ProductsTitle, KidsHeavenDB.Products.ProductsPhotoUrl
+            FROM KidsHeavenDB.Products
+            ORDER BY KidsHeavenDB.Products.ProductsId DESC ";
+            
+            try
+            {
+                var advertData = await _connection.QueryAsync<UserFavoriteAdvertsDTO>(querry);
+                return Ok(advertData);
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            
+        }
+        
     }
 }

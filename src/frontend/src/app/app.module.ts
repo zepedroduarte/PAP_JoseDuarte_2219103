@@ -18,11 +18,15 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import { AuthService } from "./shared/services/auth-service.service";
 import { HttpClientModule } from '@angular/common/http';
 import {ToastModule} from "primeng/toast";
+import { MessageComponent } from './messages/message/message.component';
+import { AllMessagesComponent } from './messages/all-messages/all-messages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
+    MessageComponent,
+    AllMessagesComponent,
   ],
   imports: [
     BrowserModule,

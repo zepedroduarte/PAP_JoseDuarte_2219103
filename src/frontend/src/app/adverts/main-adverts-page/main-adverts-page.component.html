@@ -1,14 +1,16 @@
+<p-button class="fixed ml-8" type="text" (click)="display = true" icon="pi pi-arrow-right "></p-button>
 <div class="advertsBody flex justify-content-center">
     <div>
       <div class="flex justify-content-center search-bar">
         <div class="search-content">
-          <input type="text" pInputText placeholder="Pesquisar">
-          <button class="ml-3" pButton type="button" label="Pesquisar" [routerLink]='["/adverts/mainAdvertPage"]'><fa-icon class="search-icon" [icon]="faSearch"></fa-icon></button>
+          <form [formGroup]="form">
+            <input type="text" pInputText placeholder="Pesquisar" formControlName="title">
+            <button class="ml-3" pButton label="Pesquisar" (click)="getAllAdvertsFiltered(1)"><fa-icon class="search-icon" [icon]="faSearch"></fa-icon></button>
+          </form>
         </div>
       </div>
       <div class="container flex justify-content-between align-items-center mb-3">
-        <h2 class="title">Anúncios</h2>
-        <p-button type="text" (click)="display = true" icon="pi pi-plus" label="Filtros"></p-button>
+        <h2 style="font-size: 2em; font-weight: lighter">Anúncios</h2>
         <button [routerLink]="['/adverts/createAdvert']" pButton type="button" label="Anunciar" style="width: 9rem"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
       </div>
        <div class="advertDiv">
@@ -24,6 +26,35 @@
     </div>
 
     <p-sidebar [(visible)]="display">
-      Content
+      <form [formGroup]="form">
+        <div class="form grid mt-3 flex flex-column">
+          <div class="field col" style="margin-bottom: 0">
+            <label class="block text-900 font-medium mb-2">Categoria</label>
+            <p-dropdown [options]="categories" optionLabel="categoryName" placeholder="Selecione a categoria" formControlName="category"></p-dropdown>
+          </div>
+          <div class="field col">
+            <label class="block text-900 font-medium mb-2">Género</label>
+            <p-dropdown [options]="genders" optionLabel="name" placeholder="Selecione o género" formControlName="gender"></p-dropdown>
+          </div>
+          <div>
+            <label class="block text-900 font-medium mb-2 ml-2">Preço</label>
+            <div  class="col">
+              <input type="text" class="w-full" pInputText placeholder="De"  formControlName="minPrice" [ngClass]="{'ng-dirty': minPrice!.invalid}">
+              <div *ngIf="minPrice!.invalid">
+                <p *ngIf="minPrice!.errors?.['pattern']" class="p-error mt-1">Preço só pode conter números</p>
+              </div>
+            </div>
+            <div  class="col">
+              <input type="text" class="w-full"  pInputText placeholder="Até" formControlName="maxPrice" [ngClass]="{'ng-dirty': maxPrice!.invalid}">
+              <div *ngIf="maxPrice!.invalid">
+                <p *ngIf="maxPrice!.errors?.['pattern']" class="p-error mt-1">Preço só pode conter números</p>
+              </div>
+            </div>
+          </div>
+          <div class="col mt-4">
+            <button class="w-full" pButton type="button" label="Pesquisar" (click)="getAllAdvertsFiltered(1); display = false"><fa-icon class="search-icon" [icon]="faSearch"></fa-icon></button>
+          </div>
+        </div>
+      </form>
     </p-sidebar>
 </div>

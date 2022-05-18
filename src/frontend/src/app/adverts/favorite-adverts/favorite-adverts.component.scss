@@ -21,28 +21,3 @@
 .advertTitle {
   font-size: 1.7em;
 }
-
-.search-bar {
-  input{
-    width: 40vw;
-    border: 1px solid #6366F1;
-  }
-
-  .search-content {
-    margin-bottom: 6vh;
-  }
-}
-
-.search-icon {
-  padding-right: 6px;
-}
-
-.plus-icon {
-  padding-right: 6px;
-}
-
-
-::ng-deep .p-dropdown{
-  width: 100%;
-}
-

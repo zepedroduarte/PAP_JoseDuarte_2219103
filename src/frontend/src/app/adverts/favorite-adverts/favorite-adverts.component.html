@@ -2,7 +2,7 @@
   <div class="surface-card p-4 shadow-2 border-round lg:w-7">
     <button class="mb-5" pButton pRipple label="Voltar" icon="pi pi-arrow-left" (click)="back()"></button>
     <div>
-      <h2 style="font-size: 2em; font-weight: lighter" class="mt-0">Meus Anúncios</h2>
+      <h2  style="font-size: 2em; font-weight: lighter" class="mt-0">Anúncios Favoritos</h2>
       <div class="advertDiv">
         <div [routerLink]='["/adverts/advert", advert.productsId]' *ngFor="let advert of advertsArray?.data" class="advert flex surface-card p-4 mb-3 shadow-2 border-round w-full">
           <img [src]="advert.productsPhotoUrl" class="productImage">

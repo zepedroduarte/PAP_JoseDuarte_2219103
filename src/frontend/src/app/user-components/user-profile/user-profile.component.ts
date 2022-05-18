@@ -7,6 +7,7 @@ import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {AuthService} from "../../shared/services/auth-service.service";
 import {UpdateUser} from "../../shared/models/update-user";
 import {MessageService} from "primeng/api";
+import {Location} from "@angular/common"
 
 
 @Component({
@@ -24,12 +25,16 @@ export class UserProfileComponent implements OnInit {
 
   user!: any;
 
-  constructor(private userService: UserService, private afStorage: AngularFireStorage, public authService: AuthService, private messageService: MessageService) { }
+  constructor(private userService: UserService, private afStorage: AngularFireStorage, public authService: AuthService, private messageService: MessageService, private location: Location) { }
 
   ngOnInit(): void {
     this.userService.getUser().subscribe(data => {
       this.user = data;
     });
+  }
+
+  back() {
+    this.location.back();
   }
 
   uploadImage(e: Event) {

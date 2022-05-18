@@ -8,6 +8,7 @@ import {UserData} from "../../shared/models/user";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
 import {UserService} from "../../shared/services/user-service.service";
+import {Location} from "@angular/common";
 
 declare var google: any;
 
@@ -31,7 +32,7 @@ export class CreateAdvertComponent implements OnInit {
   user?: any;
 
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private afStorage: AngularFireStorage, private messageService: MessageService, private advertServices: AdvertService, private router: Router) {
+  constructor(private location: Location, private userService: UserService, private formBuilder: FormBuilder, private afStorage: AngularFireStorage, private messageService: MessageService, private advertServices: AdvertService, private router: Router) {
     this.genders = [
       {name: 'Rapaz'},
       {name: 'Rapariga'},
@@ -68,6 +69,10 @@ export class CreateAdvertComponent implements OnInit {
       this.user = data;
     });
 
+  }
+
+  back() {
+    this.location.back();
   }
 
   handleMapClick(event: any) {

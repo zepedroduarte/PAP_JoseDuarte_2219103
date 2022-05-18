@@ -19,6 +19,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {EditAdvertComponent} from "./edit-advert/edit-advert.component";
 import {MainAdvertsPageComponent} from "./main-adverts-page/main-adverts-page.component";
 import {SidebarModule} from "primeng/sidebar";
+import {FavoriteAdvertsComponent} from "./favorite-adverts/favorite-adverts.component";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {SidebarModule} from "primeng/sidebar";
     AdvertComponent,
     EditAdvertComponent,
     MainAdvertsPageComponent,
+    FavoriteAdvertsComponent
   ],
     imports: [
         CommonModule,

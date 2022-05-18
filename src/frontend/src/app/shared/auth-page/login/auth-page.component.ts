@@ -16,7 +16,7 @@ export class AuthPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(email: string, password: string) {
+    login(email: string, password: string) {
 
     this.authService.SignIn(email, password).catch(error => {
 

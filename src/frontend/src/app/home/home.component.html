@@ -1,48 +1,31 @@
 <div class="home">
-
-  <div class="flex justify-content-center search-bar">
-    <div class="search-content">
-      <input type="text" pInputText placeholder="Pesquisar">
-      <button class="ml-3" pButton type="button" label="Pesquisar" [routerLink]='["/adverts/mainAdvertPage"]'><fa-icon class="search-icon" [icon]="faSearch"></fa-icon></button>
+  <div class="flex justify-content-center">
+    <div class="flex align-items-center flex-column search-content">
+      <p style="font-size: 3em; font-weight: lighter">Veja todos os anúncios disponíveis</p>
+      <button pButton type="button" label="Ver Anúncios" [routerLink]='["/adverts/mainAdvertPage"]'></button>
     </div>
   </div>
 
   <div class="create-your-announcement">
-    <h1>Cria o teu anúncio</h1>
-    <p class="px-3">Não falhes esta oportunidade, ajuda quem precisa e anuncia os teus teus produtos!</p>
-    <button [routerLink]="['/adverts/createAdvert']" class="mt-6" pButton type="button" label="Anunciar"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
+    <p style="font-size: 3em; font-weight: lighter">Cria o teu anúncio</p>
+    <p style="font-size: 1.2em; font-weight: lighter" class="px-3">Não falhes esta oportunidade, ajuda quem precisa e anuncia os teus teus produtos!</p>
+    <button [routerLink]='["/adverts/createAdvert"]' class="mt-6" pButton type="button" label="Anunciar"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
   </div>
 
-  <h1 class="ads-featured-title flex justify-content-center pt-8">Destaques</h1>
+  <p style="font-size: 3em; font-weight: lighter" class="flex justify-content-center pt-8">Últimos Adicionados</p>
 
   <div class="grid flex justify-content-center p-3 w-full">
-    <p-card class="ad-featured w-full col-4 lg:w-6 xl:w-3">
-      <ng-template pTemplate="header">
-        <img src="https://img.dott.pt/Qs2Vv39exYucgYMC179KLzMhYy7Z8gRlJwt41zTI9LM/fit/1500/1500/no/0/aHR0cHM6Ly9kMWt2Zm95cmlmNnd6Zy5jbG91ZGZyb250Lm5ldC9hc3NldHMvaW1hZ2VzLzgwL21haW4vbm9uZV8zOTkxMzI5YmFiYzczZjgyODljMTBkYTU2MTUxNjA0Yl8zOTkxMzI5LkpQRUc.jpeg" alt="">
-      </ng-template>
-      <ng-template pTemplate="content">
-        <h3>Brinquedo</h3>
-        <p>10€</p>
-      </ng-template>
-    </p-card>
-    <p-card class="ad-featured  w-full col-4 lg:w-6 xl:w-3">
-      <ng-template pTemplate="header">
-        <img src="https://img.dott.pt/Qs2Vv39exYucgYMC179KLzMhYy7Z8gRlJwt41zTI9LM/fit/1500/1500/no/0/aHR0cHM6Ly9kMWt2Zm95cmlmNnd6Zy5jbG91ZGZyb250Lm5ldC9hc3NldHMvaW1hZ2VzLzgwL21haW4vbm9uZV8zOTkxMzI5YmFiYzczZjgyODljMTBkYTU2MTUxNjA0Yl8zOTkxMzI5LkpQRUc.jpeg" alt="">
-      </ng-template>
-      <ng-template pTemplate="content">
-        <h3>Brinquedo</h3>
-        <p>10€</p>
-      </ng-template>
-    </p-card>
-    <p-card class="ad-featured w-full col-4 lg:w-6 xl:w-3">
-      <ng-template pTemplate="header">
-        <img src="https://img.dott.pt/Qs2Vv39exYucgYMC179KLzMhYy7Z8gRlJwt41zTI9LM/fit/1500/1500/no/0/aHR0cHM6Ly9kMWt2Zm95cmlmNnd6Zy5jbG91ZGZyb250Lm5ldC9hc3NldHMvaW1hZ2VzLzgwL21haW4vbm9uZV8zOTkxMzI5YmFiYzczZjgyODljMTBkYTU2MTUxNjA0Yl8zOTkxMzI5LkpQRUc.jpeg" alt="">
-      </ng-template>
-      <ng-template pTemplate="content">
-        <h3>Brinquedo</h3>
-        <p>10€</p>
-      </ng-template>
-    </p-card>
+    <div class="ml-5" *ngFor="let data of advertData">
+      <p-card class="ad-featured w-full col-4 lg:w-6 xl:w-3 cursor-pointer" [routerLink]='["/adverts/advert", data.productsId]'>
+        <ng-template pTemplate="header">
+          <img style="height: 25em; width: 25em" [src]="data.productsPhotoUrl" alt="">
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p class="mt-0" style="font-size: 1.3em; font-weight: lighter">{{ data.productsTitle }}</p>
+          <p>{{ data.productsPrice }}€</p>
+        </ng-template>
+      </p-card>
+    </div>
   </div>
 </div>
 

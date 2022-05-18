@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {AdvertService} from "../../shared/services/advert-service.service";
-import { Location } from "@angular/common";
+import {Location} from "@angular/common";
 
 @Component({
-  selector: 'app-user-adverts',
-  templateUrl: './user-adverts.component.html',
-  styleUrls: ['./user-adverts.component.scss']
+  selector: 'app-favorite-adverts',
+  templateUrl: './favorite-adverts.component.html',
+  styleUrls: ['./favorite-adverts.component.scss']
 })
-export class UserAdvertsComponent implements OnInit {
+export class FavoriteAdvertsComponent implements OnInit {
 
   advertsArray: any;
 
@@ -25,7 +25,7 @@ export class UserAdvertsComponent implements OnInit {
   }
 
   getAdverts(currentPageNumber: number) {
-    this.advertService.getAdverts(currentPageNumber).subscribe(data => {
+    this.advertService.getAllUserFavouriteAdvert(currentPageNumber).subscribe(data => {
       this.pageSize = data.pageSize
       this.totalCount = data.totalCount
       this.advertsArray = data;
