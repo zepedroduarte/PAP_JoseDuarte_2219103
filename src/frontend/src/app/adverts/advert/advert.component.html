@@ -8,7 +8,7 @@
         <h3 style="font-size: 1.5em; font-weight: lighter" class="titles pt-5">Descrição</h3>
         <div>{{ advertData?.productsDescription }}</div>
         <p-divider></p-divider>
-        <div class="userInfo flex align-content-end m-0 grid">
+        <div class="userInfo flex align-content-end m-0 grid cursor-pointer" [routerLink]='["/user/advert-user-profile", advertData?.productsUserId]'>
           <p-avatar [image]="((advertData?.userPhotoUrl) ? advertData?.userPhotoUrl : './assets/user_default.png')" class="userImg" size="xlarge" shape="circle"></p-avatar>
           <p class="username pl-4 pt-3">{{ advertData?.userName }}</p>
           <div class="pl-5 col-12">

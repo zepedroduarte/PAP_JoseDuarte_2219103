@@ -8,6 +8,7 @@ import {AuthService} from "../../shared/services/auth-service.service";
 import {UpdateUser} from "../../shared/models/update-user";
 import {MessageService} from "primeng/api";
 import {Location} from "@angular/common"
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -17,19 +18,24 @@ import {Location} from "@angular/common"
 })
 export class UserProfileComponent implements OnInit {
 
-  val?: number = 3;
+  val?: number;
 
   faPhoneAlt = faPhoneAlt;
   faEnvelope = faEnvelope;
   faHome = faHome;
 
+
   user!: any;
 
-  constructor(private userService: UserService, private afStorage: AngularFireStorage, public authService: AuthService, private messageService: MessageService, private location: Location) { }
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private afStorage: AngularFireStorage, public authService: AuthService, private messageService: MessageService, private location: Location) { }
 
   ngOnInit(): void {
     this.userService.getUser().subscribe(data => {
       this.user = data;
+
+      this.userService.getUserRatingById(data.userId).subscribe(data => {
+        this.val = data.RatedUserStars
+      })
     });
   }
 

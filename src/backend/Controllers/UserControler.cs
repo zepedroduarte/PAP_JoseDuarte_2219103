@@ -139,5 +139,158 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            string getUser = @"
+            SELECT UserId, 
+                   UserFirebaseUid, 
+                   UserName, 
+                   UserEmail, 
+                   UserPhoneNumber, 
+                   UserPhotoUrl, 
+                   KidsHeavenDB.Districts.DistrictName, 
+                   DistrictId 
+            FROM KidsHeavenDB.UserAccounts 
+                JOIN KidsHeavenDB.Districts on KidsHeavenDB.UserAccounts.DistrictId = KidsHeavenDB.Districts.DistrictsId 
+            WHERE UserId = @Id";
+
+            try
+            {
+                var user = await _connection.QueryAsync<UserInfoDTO>(getUser, new {Id = id});
+                return Ok(user.FirstOrDefault());
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+           
+        [HttpPost("ratings")]
+        [Authorize]
+        public async Task<IActionResult> UserRateUser([FromBody] Rating rating)
+        { 
+            IActionResult response = Unauthorized();
+
+            Rating ratings = new Rating()
+            {
+                RatedUserStars = rating.RatedUserStars,
+                UserIdEvaluated = rating.UserIdEvaluated,
+                UserIdRated = rating.UserIdRated
+            };
+
+            try
+            {
+                long id = await _connection.InsertAsync(ratings);
+
+                if (id > 0)
+                {
+                    response = NoContent();
+                }
+
+                return response;
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+            
+        [HttpPut("ratings")]
+        [Authorize]
+        public async Task<IActionResult> UserUpdateRateUser([FromBody] Rating rating)
+        { 
+            IActionResult response = Unauthorized();
+
+            Rating ratings = new Rating()
+            {
+                RatedUserStars = rating.RatedUserStars,
+                UserIdEvaluated = rating.UserIdEvaluated,
+                UserIdRated = rating.UserIdRated
+            };
+
+            try
+            {
+                bool wasUpdated = await _connection.UpdateAsync(ratings);
+
+                if (wasUpdated)
+                {
+                    response = NoContent();
+                }
+
+                return response;
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+        [HttpGet("ratings/{id}")]
+        public async Task<IActionResult> GetUserRatingById(int id)
+        {
+            string getUserRating = @"
+                SELECT ROUND(AVG(CAST(KidsHeavenDB.UserRateUser.RatedUserStars AS FLOAT)), 1) 
+                AS RatedUserStars
+                FROM KidsHeavenDB.UserRateUser 
+                WHERE UserRateUser.UserIdEvaluated = @Id
+            ";
+
+            try
+            {
+                var ratings = await _connection.QueryAsync(getUserRating, new {Id = id});
+                return Ok(ratings.FirstOrDefault());
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
+         
+        [HttpGet("userRating")]
+        public async Task<IActionResult> GetUserRatingByUserId(int userEvaluatedId, int userRateId)
+        {
+            string getUserRating = @"
+                SELECT KidsHeavenDB.UserRateUser.RatedUserStars, UserRateUser.UserIdRated 
+                FROM KidsHeavenDB.UserRateUser 
+                WHERE UserRateUser.UserIdEvaluated = @UserEvaluatedId AND UserRateUser.UserIdRated = @UserRateId
+            ";
+
+            try
+            {
+                var ratings = await _connection.QueryAsync(getUserRating, new {UserEvaluatedId = userEvaluatedId, UserRateId = userRateId});
+                return Ok(ratings.FirstOrDefault());
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
     }
 }

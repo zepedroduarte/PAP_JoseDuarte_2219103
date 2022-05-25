@@ -322,13 +322,43 @@ namespace backend.Controllers
 
             getAdvert += @" ORDER BY ProductsTitle OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
             
-            string count = @"SELECT COUNT(*) FROM KidsHeavenDB.Products";
+            string count = @"
+                            SELECT COUNT(*) 
+                            FROM KidsHeavenDB.Products 
+		                    INNER JOIN  KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId
+                            where 1 = 1";
+            
+            if (!string.IsNullOrWhiteSpace(gender))
+            {
+                count += @" AND ProductsGender = @Gender";
+            }
+            
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                count += @" AND CategoryName = @Category";
+            }
+            
+            if (!string.IsNullOrWhiteSpace(minPrice))
+            {
+                count += @" AND ProductsPrice >= @MinPrice";
+            }
+            
+            if (!string.IsNullOrWhiteSpace(maxPrice))
+            {
+                count += @" AND ProductsPrice <= @MaxPrice";
+            }
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                count += @" AND ProductsTitle LIKE @Title";
+            }
+            
             
             try
             {
                 var reader = await _connection.QueryAsync<GetAdvertDTO>(getAdvert, new {Skip = skip, Take = pagesize, Title ="%" + title + "%", Gender = gender, Category = category, MinPrice = minPrice, MaxPrice = maxPrice});
                 
-                int totalCount = _connection.QueryAsync<int>(count).Result.FirstOrDefault();
+                int totalCount = _connection.QueryAsync<int>(count, new {Title ="%" + title + "%", Gender = gender, Category = category, MinPrice = minPrice, MaxPrice = maxPrice}).Result.FirstOrDefault();
 
                 Pagination<GetAdvertDTO> pagination = new Pagination<GetAdvertDTO>
                 {
@@ -576,6 +606,65 @@ namespace backend.Controllers
             }
             
         }
+        
+        [HttpGet("/userById/{userId}")]
+        public async Task<IActionResult> GetAdvertsByUserId(int currentPageNumber, int userId)
+        {
+            int pagesize = 3;
+
+            int skip = (currentPageNumber - 1) * pagesize;
+
+            string getAdvert = @"
+            SELECT ProductsId,
+                   ProductsTitle, 
+                   ProductsGender, 
+                   KidsHeavenDB.Categories.CategoryName, 
+                   ProductsDescription, 
+                   ProductsEmail, 
+                   ProductsPhoneNumber, 
+                   KidsHeavenDB.MapLocations.MapLocationsLat,  
+                   KidsHeavenDB.MapLocations.MapLocationsLng, 
+                   ProductsPhotoUrl, 
+                   ProductsPrice, 
+                   ProductsUserId 
+            FROM KidsHeavenDB.Products 
+                JOIN KidsHeavenDB.Categories ON KidsHeavenDB.Products.ProductsCategoryId = KidsHeavenDB.Categories.CategoryId 
+                JOIN KidsHeavenDB.MapLocations ON KidsHeavenDB.Products.ProductsLocationId = KidsHeavenDB.MapLocations.Id 
+                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId
+            WHERE KidsHeavenDB.Products.ProductsUserId = @Id
+            ORDER BY ProductsTitle
+            OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
+
+            string count = @"SELECT COUNT(*) 
+            FROM KidsHeavenDB.Products 
+                JOIN KidsHeavenDB.UserAccounts ON KidsHeavenDB.Products.ProductsUserId = KidsHeavenDB.UserAccounts.UserId 
+            WHERE KidsHeavenDB.Products.ProductsUserId = @Id";
+
+            try
+            {
+                var reader = await _connection.QueryAsync<GetAdvertDTO>(getAdvert, new {Skip = skip, Take = pagesize, Id = userId});
+                int totalCount = _connection.QueryAsync<int>(count, new {Id = userId}).Result.FirstOrDefault();
+
+                Pagination<GetAdvertDTO> pagination = new Pagination<GetAdvertDTO>
+                {
+                    TotalCount = totalCount,
+                    Data = reader,
+                    PageSize = pagesize,
+                    CurrentPageNumber = currentPageNumber
+                };
+
+                return Ok(pagination);
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
         
     }
 }

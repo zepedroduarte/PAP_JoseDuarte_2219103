@@ -31,23 +31,23 @@ import {FavoriteAdvertsComponent} from "./favorite-adverts/favorite-adverts.comp
     MainAdvertsPageComponent,
     FavoriteAdvertsComponent
   ],
-    imports: [
-        CommonModule,
-        AdvertRoutingModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        RippleModule,
-        DropdownModule,
-        GMapModule,
-        InputTextareaModule,
-        PanelModule,
-        PaginatorModule,
-        AvatarModule,
-        DividerModule,
-        FontAwesomeModule,
-        SidebarModule
-    ],
+  imports: [
+    CommonModule,
+    AdvertRoutingModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule,
+    RippleModule,
+    DropdownModule,
+    GMapModule,
+    InputTextareaModule,
+    PanelModule,
+    PaginatorModule,
+    AvatarModule,
+    DividerModule,
+    FontAwesomeModule,
+    SidebarModule
+  ],
   providers: [
 
   ]

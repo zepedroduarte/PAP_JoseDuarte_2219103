@@ -126,4 +126,12 @@ export class AdvertService {
     return this.http.get<AllUserFavouriteAdverts>(`https://localhost:5001/advert/mainpageadverts`, httpOptions)
   }
 
+  getAdvertsByUserId(userId: number, currentPage: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken})
+    }
+
+    return this.http.get<GetAdvertPaginated>(`https://localhost:5001/userbyid/${userId}?currentPageNumber=${currentPage}`, httpOptions)
+  }
+
 }

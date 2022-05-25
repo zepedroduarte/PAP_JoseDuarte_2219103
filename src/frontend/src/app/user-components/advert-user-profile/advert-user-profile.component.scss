@@ -1,0 +1,60 @@
+.profile {
+  margin-top: 17vh;
+  font-family: Inter, sans-serif;
+}
+
+.image-upload {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  overflow: hidden;
+
+  input[type="file"] {
+    display: none;
+  }
+}
+
+.user {
+  color: #333355;
+}
+
+.userInfo{
+  color: #333355;
+}
+
+.userAchivements {
+  h2{
+    color:#333355;
+  }
+}
+
+.advertsBody {
+  margin-top: 15vh;
+  margin-bottom: 10vh;
+}
+
+.advert {
+  max-height: 200px;
+}
+
+.advertDiv :hover {
+  cursor: pointer;
+}
+
+
+.productImage {
+  display: flex;
+  width: 150px;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.advertTitle {
+  font-size: 1.7em;
+}
+
+span .p-rating .p-rating-icon.pi-star-fill a ::ng-deep {
+  color: yellow !important;
+}
+
+

@@ -15,28 +15,32 @@ import {RatingModule} from "primeng/rating";
 import {MessageService} from "primeng/api";
 import {ButtonModule} from "primeng/button";
 import {UserRoutingModule} from "./user.routing.module";
+import {AdvertUserProfileComponent} from "./advert-user-profile/advert-user-profile.component";
+import {PaginatorModule} from "primeng/paginator";
 
 @NgModule({
   declarations: [
     UserProfileComponent,
     EditUserComponent,
+    AdvertUserProfileComponent
   ],
-  imports: [
-    CommonModule,
-    FontAwesomeTestingModule,
-    InputTextModule,
-    DividerModule,
-    CardModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ToastModule,
-    RippleModule,
-    DropdownModule,
-    HttpClientModule,
-    RatingModule,
-    ButtonModule,
-    UserRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FontAwesomeTestingModule,
+        InputTextModule,
+        DividerModule,
+        CardModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ToastModule,
+        RippleModule,
+        DropdownModule,
+        HttpClientModule,
+        RatingModule,
+        ButtonModule,
+        UserRoutingModule,
+        PaginatorModule
+    ],
   providers: [
     MessageService
   ]

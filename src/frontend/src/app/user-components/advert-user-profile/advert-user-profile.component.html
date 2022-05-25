@@ -1,0 +1,54 @@
+<div class="flex justify-content-center profile mb-6">
+  <div class="surface-card p-4 shadow-2 border-round lg:w-7">
+    <div class="flex justify-content-between">
+      <div>
+        <button class="flex" pButton pRipple label="Voltar" icon="pi pi-arrow-left" (click)="back()"></button>
+      </div>
+      <div>
+        <a class="flex no-underline" pButton pRipple label="Enviar Mensagem" href="mailto:{{this.user?.userEmail}}" icon="pi pi-envelope"></a>
+      </div>
+    </div>
+    <div class="grid pt-6">
+      <div class="image-upload col-2 flex align-items-center justify-content-center">
+        <label class="upload-photo-img">
+          <img [src]="((this.user?.userPhotoUrl != undefined) ? this.user?.userPhotoUrl : './assets/user_default.png')"  class="w-7rem flex align-items-center">
+        </label>
+      </div>
+      <div class="user pt-3 col-6">
+        <h3 class="mb-2">{{user?.userName}}</h3>
+        <p-rating (click)="Rate()" [cancel]="false" [(ngModel)]="val"></p-rating>
+        <p>Avaliação geral: {{this.rating}}</p>
+      </div>
+      <div class="userInfo p-4 col-4">
+        <div class="userPhone flex align-items-center mb-3">
+          <fa-icon [icon]="faPhoneAlt"></fa-icon>
+          <span class="ml-2">{{user?.userPhoneNumber}}</span>
+        </div>
+        <div class="userEmail flex align-items-center mb-3">
+          <fa-icon [icon]="faEnvelope"></fa-icon>
+          <span class="ml-2">{{user?.userEmail}}</span>
+        </div>
+        <div class="userDistrict flex align-items-center mb-3">
+          <fa-icon [icon]="faHome"></fa-icon>
+          <span class="ml-2">{{user?.districtName}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="pt-6">
+      <h2 style="font-size: 2em; font-weight: lighter" class="mt-0">Anúncios do Utilizador</h2>
+        <div class="advertDiv">
+          <div [routerLink]='["/adverts/advert", advert.productsId]' *ngFor="let advert of advertsArray?.data" class="advert flex surface-card p-4 mb-3 shadow-2 border-round w-full">
+            <img [src]="advert.productsPhotoUrl" class="productImage">
+            <div class="ml-4">
+              <p class="advertTitle">{{ advert.productsTitle }}</p>
+              <h3> {{ advert.productsPrice }}€ </h3>
+            </div>
+          </div>
+        </div>
+      <p-paginator [showFirstLastIcon]="false" [rows]="this.pageSize" [totalRecords]="this.totalCount" (onPageChange)="getAdvertsByUserId($event.page + 1)"></p-paginator>
+    </div>
+  </div>
+</div>
+
+
+

@@ -42,8 +42,7 @@ export class AdvertComponent implements OnInit {
     })
 
     this.userService.getUser().subscribe(data => {
-      this.userId = data.userId
-
+      console.log(data.userId)
 
       this.advertService.getUserFavouriteAdvert(data.userId, parseInt(this.id)).subscribe(data => {
         this.favoriteAdverts = data
@@ -58,6 +57,8 @@ export class AdvertComponent implements OnInit {
 
     this.advertService.getAdvert(parseInt(this.id)).subscribe( data => {
       this.advertData = data
+
+      console.log(data)
 
       this.gmap.map.setCenter(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));
       this.gmap.map.panTo(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));

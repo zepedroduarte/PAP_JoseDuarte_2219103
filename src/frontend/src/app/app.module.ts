@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -18,15 +17,11 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import { AuthService } from "./shared/services/auth-service.service";
 import { HttpClientModule } from '@angular/common/http';
 import {ToastModule} from "primeng/toast";
-import { MessageComponent } from './messages/message/message.component';
-import { AllMessagesComponent } from './messages/all-messages/all-messages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    MessageComponent,
-    AllMessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +38,7 @@ import { AllMessagesComponent } from './messages/all-messages/all-messages.compo
     AngularFirestoreModule,
     HttpClientModule,
     ToastModule,
+
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
