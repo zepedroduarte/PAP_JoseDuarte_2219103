@@ -25,11 +25,11 @@
       </div>
 
       <div>
-        <label for="phoneNumber" class="block text-900 font-medium mb-2">Telemovel</label>
+        <label for="phoneNumber" class="block text-900 font-medium mb-2">Telemóvel</label>
         <input id="phoneNumber" type="text" pInputText class="w-full mb-3" formControlName="phoneNumber" [ngClass]="{'ng-dirty': phoneNumber!.invalid && phoneNumber!.touched}">
         <div *ngIf="phoneNumber!.invalid && (phoneNumber!.dirty || phoneNumber!.touched)">
-          <p *ngIf="phoneNumber!.errors?.['required']" class="p-error mt-0">Nº de telemovel obrigatório</p>
-          <p *ngIf="phoneNumber!.errors?.['pattern']" class="text-danger">Nº de telemovel só pode conter números</p>
+          <p *ngIf="phoneNumber!.errors?.['required']" class="p-error mt-0">Nº de telemóvel obrigatório</p>
+          <p *ngIf="phoneNumber!.errors?.['pattern']" class="text-danger">Nº de telemóvel só pode conter números</p>
         </div>
       </div>
 
@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <button [disabled]="!form.valid" type="submit" pButton pRipple label="Registrar" icon="pi pi-user-plus" class="w-full"></button>
+      <button [disabled]="!form.valid" type="submit" pButton pRipple label="Registar" icon="pi pi-user-plus" class="w-full"></button>
     </div>
   </div>
 </form>
