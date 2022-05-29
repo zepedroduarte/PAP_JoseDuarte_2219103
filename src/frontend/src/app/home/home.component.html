@@ -9,7 +9,15 @@
   <div class="create-your-announcement">
     <p style="font-size: 3em; font-weight: lighter">Cria o teu anúncio</p>
     <p style="font-size: 1.2em; font-weight: lighter" class="px-3">Não falhes esta oportunidade, ajuda quem precisa e anuncia os teus teus produtos!</p>
-    <button [routerLink]='["/adverts/createAdvert"]' class="mt-6" pButton type="button" label="Anunciar"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
+
+    <div *ngIf="isLoggedIn == true">
+      <button [routerLink]='["/adverts/createAdvert"]' class="mt-6" pButton type="button" label="Anunciar"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
+    </div>
+    <div *ngIf="isLoggedIn == false">
+      <button [routerLink]='["/login"]' class="mt-6" pButton type="button" label="Anunciar"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
+    </div>
+
+
   </div>
 
   <p style="font-size: 3em; font-weight: lighter" class="flex justify-content-center pt-8">Últimos Adicionados</p>

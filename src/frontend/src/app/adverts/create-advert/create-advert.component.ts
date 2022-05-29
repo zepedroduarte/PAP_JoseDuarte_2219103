@@ -51,7 +51,7 @@ export class CreateAdvertComponent implements OnInit {
       lat: [null, Validators.required],
       lng: [null, Validators.required],
       images: [ '', Validators.required],
-      price: [ '', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      price: [ '', [Validators.required]],
     })
 
     this.options = {

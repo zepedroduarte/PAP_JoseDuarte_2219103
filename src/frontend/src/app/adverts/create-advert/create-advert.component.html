@@ -73,7 +73,7 @@
 
       <div>
         <label for="price" class="block text-900 font-medium mb-2">Preço</label>
-        <input id="price" type="text" pInputText class="w-full mb-2" formControlName="price" [ngClass]="{'ng-dirty': price!.invalid && price!.touched}">
+        <input id="price" type="number" pInputText class="w-full mb-2" formControlName="price" [ngClass]="{'ng-dirty': price!.invalid && price!.touched}">
         <div *ngIf="price!.invalid && (price!.dirty || price!.touched)">
           <p *ngIf="price!.errors?.['required']" class="p-error mt-0">Preço obrigatório</p>
           <p *ngIf="price!.errors?.['pattern']" class="p-error mt-0">Preço só pode conter números</p>

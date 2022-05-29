@@ -54,7 +54,7 @@ export class EditAdvertComponent implements OnInit {
       lat: [null, Validators.required],
       lng: [null, Validators.required],
       images: [ '', Validators.required],
-      price: [ '', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      price: [ '', [Validators.required]],
     })
 
     this.advertService.getCategories().subscribe(

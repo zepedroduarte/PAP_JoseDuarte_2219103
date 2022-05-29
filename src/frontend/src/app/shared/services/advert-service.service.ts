@@ -23,27 +23,27 @@ export class AdvertService {
 
   createAdvert(data: CreateAdvert) {
     const httpOptions = {
-      headers: {'Content-Type' : 'application/json'}
-
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken
+      })
     }
+
     return this.http.post('https://localhost:5001/advert', JSON.stringify(data), httpOptions)
   }
 
   getAdverts(currentPage: number):Observable<GetAdvertPaginated>{
     const httpOptions = {
-      headers: new HttpHeaders({'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken})
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken
+      })
     }
 
     return this.http.get<GetAdvertPaginated>(`https://localhost:5001/advert?currentPageNumber=${currentPage}`, httpOptions)
   }
 
   getAdvert(id: number):Observable<GetAdvertById> {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/json')
-
-    }
-
-    return this.http.get<GetAdvertById>(`https://localhost:5001/advert/${id}`, httpOptions)
+    return this.http.get<GetAdvertById>(`https://localhost:5001/advert/${id}`)
   }
 
   deleteAdvert(id: number) {
@@ -56,9 +56,11 @@ export class AdvertService {
 
   editAdvert(advertData:any, id: number) {
     const httpOptions = {
-      headers: { 'Content-Type' : 'application/json' }
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken
+      })
     }
-
 
     return this.http.put<UpdateAdvert>(`https://localhost:5001/advert/${id}`, JSON.stringify(advertData), httpOptions)
   }
@@ -67,7 +69,7 @@ export class AdvertService {
 
     let url: string = `https://localhost:5001/advert/allfiltered?currentPageNumber=${currentPage}`;
 
-    if (gender != '') {
+    if (gender != undefined) {
       url += `&gender=${gender}`
     }
 
@@ -87,6 +89,8 @@ export class AdvertService {
       url += `&title=${title}`
     }
 
+    console.log(url)
+
     return this.http.get<GetAdvertPaginated>(url)
   }
 
@@ -100,7 +104,9 @@ export class AdvertService {
 
   addUserFavouriteAdvert(data?: UserFavouriteAdvert) {
     const httpOptions = {
-      headers: {'Content-Type' : 'application/json'}
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
     }
 
     return this.http.post<UserFavouriteAdvert>(`https://localhost:5001/advert/userfavouriteadvert`, JSON.stringify(data), httpOptions)
@@ -119,11 +125,7 @@ export class AdvertService {
   }
 
   getMainPageAdverts() {
-    const httpOptions = {
-      headers: new HttpHeaders({'Authorization': 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).stsTokenManager.accessToken})
-    }
-
-    return this.http.get<AllUserFavouriteAdverts>(`https://localhost:5001/advert/mainpageadverts`, httpOptions)
+    return this.http.get<AllUserFavouriteAdverts>(`https://localhost:5001/advert/mainpageadverts`)
   }
 
   getAdvertsByUserId(userId: number, currentPage: number) {

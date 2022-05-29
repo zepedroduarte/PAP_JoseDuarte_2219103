@@ -9,9 +9,23 @@
           </form>
         </div>
       </div>
-      <div class="container flex justify-content-between align-items-center mb-3">
-        <h2 style="font-size: 2em; font-weight: lighter">Anúncios</h2>
-        <button [routerLink]="['/adverts/createAdvert']" pButton type="button" label="Anunciar" style="width: 9rem"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
+      <div *ngIf="isLoggedIn == true">
+        <div class="container flex justify-content-between align-items-center mb-3">
+          <h2 style="font-size: 2em; font-weight: lighter">Anúncios</h2>
+          <div>
+            <button (click)="getAllAdverts(1)" class="mr-2" pButton type="button" label="Limpar Filtros" style="width: 10rem"></button>
+            <button [routerLink]="['/adverts/createAdvert']" pButton type="button" label="Anunciar" style="width: 9rem"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isLoggedIn == false">
+        <div class="container flex justify-content-between align-items-center mb-3">
+          <h2 style="font-size: 2em; font-weight: lighter">Anúncios</h2>
+          <div>
+            <button (click)="getAllAdverts(1)" class="mr-2" pButton type="button" label="Limpar Filtros" style="width: 10rem"></button>
+            <button [routerLink]="['/adverts/createAdvert']" pButton type="button" label="Anunciar" style="width: 9rem"><fa-icon class="plus-icon" [icon]="faPlus"></fa-icon></button>
+          </div>
+        </div>
       </div>
        <div class="advertDiv">
         <div [routerLink]='["/adverts/advert", advert.productsId]' *ngFor="let advert of advertsData?.data" class="advert flex surface-card p-4 mb-3 shadow-2 border-round w-full">
@@ -26,6 +40,7 @@
     </div>
 
     <p-sidebar [(visible)]="display">
+      <h1 style="font-size: 2em; color: black; font-weight: lighter">Filtros</h1>
       <form [formGroup]="form">
         <div class="form grid mt-3 flex flex-column">
           <div class="field col" style="margin-bottom: 0">

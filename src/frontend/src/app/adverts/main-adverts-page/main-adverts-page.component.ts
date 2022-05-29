@@ -4,6 +4,7 @@ import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from  "@fortawesome/free-solid-svg-icons"
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth-service.service";
+import {UserService} from "../../shared/services/user-service.service";
 
 interface Gender{
   name: string,
@@ -25,9 +26,9 @@ export class MainAdvertsPageComponent implements OnInit {
   form!: FormGroup
   genders: Gender[];
   categories?: any;
+  isLoggedIn?: boolean = false;
 
-
-  constructor(private advertService: AdvertService, private formBuilder: FormBuilder, private authService: AuthService ) {
+  constructor(private advertService: AdvertService, private formBuilder: FormBuilder, private authService: AuthService, private userService: UserService ) {
     this.genders = [
       {name: 'Rapaz'},
       {name: 'Rapariga'},
@@ -36,6 +37,10 @@ export class MainAdvertsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.authService.isLoggedIn) {
+      this.isLoggedIn = true
+    }
+
     this.advertService.getCategories().subscribe(data => {
       this.categories = data
     })
@@ -56,14 +61,16 @@ export class MainAdvertsPageComponent implements OnInit {
       this.advertsData = data
       this.pageSize = data.pageSize
       this.totalCount = data.totalCount
-
     });
   }
 
   getAllAdvertsFiltered(currentPageNumber: number) {
+
     this.advertService.getAllAdvertsFiltered(currentPageNumber, this.gender?.value.name, (this.category?.value.categoryName == undefined ? '' : this.category?.value.categoryName)  , this.minPrice?.value.toString(), this.maxPrice?.value.toString(), this.title?.value).subscribe(
      data => {
        this.advertsData = data
+       this.pageSize = data.pageSize
+       this.totalCount = data.totalCount
      })
   }
 

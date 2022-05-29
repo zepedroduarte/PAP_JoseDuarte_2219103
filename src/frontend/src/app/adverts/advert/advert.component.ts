@@ -27,7 +27,8 @@ export class AdvertComponent implements OnInit {
   overlays: any = [];
   options: any;
   userId!: number;
-  isOwner: boolean = false;
+  isOwner?: boolean;
+  isLoggedIn?: boolean;
   favoriteAdverts: any = [];
 
   constructor(private advertService: AdvertService, private route: ActivatedRoute, private router: Router, private userService: UserService, private location: Location, private authService: AuthService) { }
@@ -41,37 +42,54 @@ export class AdvertComponent implements OnInit {
       }
     })
 
-    this.userService.getUser().subscribe(data => {
-      console.log(data.userId)
-
-      this.advertService.getUserFavouriteAdvert(data.userId, parseInt(this.id)).subscribe(data => {
-        this.favoriteAdverts = data
-      })
-    })
-
-
     this.options = {
       center: {lat: 38.74420911509797, lng: -9.148299476176284},
       zoom: 9
     };
 
-    this.advertService.getAdvert(parseInt(this.id)).subscribe( data => {
-      this.advertData = data
+    if(this.authService.isLoggedIn) {
+      this.isLoggedIn = true;
 
-      console.log(data)
+      this.userService.getUser().subscribe(data => {
+        this.userId = data.userId
 
-      this.gmap.map.setCenter(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));
-      this.gmap.map.panTo(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));
-      google.maps.event.trigger(this.gmap.map, "resize");
+        this.advertService.getUserFavouriteAdvert(data.userId, parseInt(this.id)).subscribe(data => {
+          this.favoriteAdverts = data
+        })
 
-      this.overlays.push(new google.maps.Marker({
-        position: {lat: data.mapLocationsLat, lng: data.mapLocationsLng},
-        title: data.productsTitle
-       }));
 
-      this.isOwner = data.productsUserId == this.authService.user.userId ? true : false
+        this.advertService.getAdvert(parseInt(this.id)).subscribe( data => {
+          this.advertData = data
 
-    });
+          this.isOwner = data.productsUserId == this.userId ? true : false
+
+          this.gmap.map.setCenter(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));
+          this.gmap.map.panTo(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));
+          google.maps.event.trigger(this.gmap.map, "resize");
+
+          this.overlays.push(new google.maps.Marker({
+            position: {lat: data.mapLocationsLat, lng: data.mapLocationsLng},
+            title: data.productsTitle
+          }));
+        });
+      })
+    }
+    else {
+      this.advertService.getAdvert(parseInt(this.id)).subscribe( data => {
+        this.isLoggedIn = false;
+
+        this.advertData = data
+
+        this.gmap.map.setCenter(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));
+        this.gmap.map.panTo(new google.maps.LatLng(data.mapLocationsLat, data.mapLocationsLng));
+        google.maps.event.trigger(this.gmap.map, "resize");
+
+        this.overlays.push(new google.maps.Marker({
+          position: {lat: data.mapLocationsLat, lng: data.mapLocationsLng},
+          title: data.productsTitle
+        }));
+      });
+    }
   }
 
   advertFavorite() {

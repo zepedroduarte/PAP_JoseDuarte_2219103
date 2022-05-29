@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: 'login', component: AuthPageComponent},
   {path: 'resetPassword', component: ResetPasswordComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'adverts', loadChildren: () => import('./adverts/advert.module').then(m => m.AdvertModule), canActivate:[AuthGuard]},
+  {path: 'adverts', loadChildren: () => import('./adverts/advert.module').then(m => m.AdvertModule)},
   {path: 'user', loadChildren: () => import('./user-components/user.module').then(m => m.UserModule),  canActivate:[AuthGuard]},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', pathMatch: 'full', component: PageNotFoundComponent}

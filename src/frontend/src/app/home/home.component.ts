@@ -18,11 +18,14 @@ export class HomeComponent implements OnInit {
   faPlus = faPlus;
   faEnvelope = faEnvelope;
   advertData: any = [];
+  isLoggedIn?: boolean = false;
 
-
-  constructor(private advertService: AdvertService) { }
+  constructor(private advertService: AdvertService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    if(this.authService.isLoggedIn) {
+      this.isLoggedIn = true
+    }
 
     this.advertService.getMainPageAdverts().subscribe(data => {
       this.advertData = data

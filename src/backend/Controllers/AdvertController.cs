@@ -30,6 +30,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateAdvert([FromBody] CreateAdvertDTO advert)
         {
             IActionResult response = Unauthorized();
@@ -81,6 +82,7 @@ namespace backend.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAdverts(int currentPageNumber)
         {
             int pagesize = 3;
@@ -141,6 +143,7 @@ namespace backend.Controllers
         }
         
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAdvertById(int id)
         {
             string getAdvert = @"
@@ -180,6 +183,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAdvert(int id)
         {
             IActionResult response = Unauthorized();
@@ -211,6 +215,7 @@ namespace backend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateAdvert([FromBody] UpdateAdvertDTO advert, int id)
         {
             IActionResult response = Unauthorized();
@@ -268,6 +273,7 @@ namespace backend.Controllers
         }
         
         [HttpGet("AllFiltered")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllAdvertsFiltered(int currentPageNumber, [FromQuery] string gender, [FromQuery] string category, [FromQuery] string minPrice, [FromQuery] string maxPrice, [FromQuery] string title)
         {
             int pagesize = 10;
@@ -382,6 +388,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("All")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllAdverts(int currentPageNumber)
         {
             int pagesize = 10;
@@ -439,6 +446,7 @@ namespace backend.Controllers
         }
         
         [HttpGet("UserFavouriteAdvert")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserFavouriteAdvert(int userId, int productId)
         {
             IActionResult response = Unauthorized();
@@ -464,10 +472,10 @@ namespace backend.Controllers
         }
 
         [HttpPost("UserFavouriteAdvert")]
+        [AllowAnonymous]
         public async Task<IActionResult> UserFavouriteAdvert([FromBody] UserFavorites favorites)
         {
-            IActionResult response = Unauthorized();    
-            
+
             UserFavorites favourits = new UserFavorites()
             {
                 ProductId = favorites.ProductId,
@@ -477,13 +485,8 @@ namespace backend.Controllers
             try
             { 
                long id = await _connection.InsertAsync(favourits);
-               
-               if (id > 0)
-               {
-                   response = NoContent();
-               }
-               
-               return response;
+
+               return Ok(id);
             }
             catch (SqlException ex)
             {
@@ -496,10 +499,9 @@ namespace backend.Controllers
         }
 
         [HttpDelete("UserFavouriteAdvert")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteUserFavouriteAdvert(int advertId)
         {
-            IActionResult response = Unauthorized();
-
             UserFavorites favorites = new UserFavorites()
             {
                 ProductId = advertId
@@ -510,12 +512,7 @@ namespace backend.Controllers
                 
                 bool wasDeleted = await _connection.DeleteAsync(favorites);
 
-                if (wasDeleted)
-                {
-                    return Ok();
-                }
-
-                return response;
+                return Ok(wasDeleted);
             }
             catch (SqlException ex)
             {
@@ -583,6 +580,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("MainPageAdverts")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetMainPageAdverts()
         {
 
@@ -608,6 +606,7 @@ namespace backend.Controllers
         }
         
         [HttpGet("/userById/{userId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAdvertsByUserId(int currentPageNumber, int userId)
         {
             int pagesize = 3;

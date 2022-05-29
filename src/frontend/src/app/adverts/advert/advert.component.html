@@ -31,11 +31,13 @@
       </div>
       <div class="cursor-pointer" *ngIf="isOwner == false">
         <div>
-          <div *ngIf="favoriteAdverts[0]?.productId == this.id">
+          <div *ngIf="isLoggedIn == true">
+            <div *ngIf="favoriteAdverts[0]?.productId == this.id">
               <i (click)="advertFavorite()" class="flex pi pi-heart-fill mb-6 text-3xl text-pink-600  justify-content-end mr-1"></i>
-          </div>
-          <div *ngIf="favoriteAdverts[0]?.productId == undefined">
+            </div>
+            <div *ngIf="favoriteAdverts[0]?.productId == undefined">
               <i (click)="advertFavorite()" class="flex pi pi-heart mb-6 text-3xl justify-content-end mr-1" style="right: 0!important;"></i>
+            </div>
           </div>
         </div>
       </div>

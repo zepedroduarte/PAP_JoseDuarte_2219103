@@ -141,7 +141,7 @@ namespace backend.Controllers
         }
         
         [HttpGet("{id}")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserById(int id)
         {
             string getUser = @"
@@ -176,8 +176,7 @@ namespace backend.Controllers
         [HttpPost("ratings")]
         [Authorize]
         public async Task<IActionResult> UserRateUser([FromBody] Rating rating)
-        { 
-            IActionResult response = Unauthorized();
+        {
 
             Rating ratings = new Rating()
             {
@@ -190,12 +189,7 @@ namespace backend.Controllers
             {
                 long id = await _connection.InsertAsync(ratings);
 
-                if (id > 0)
-                {
-                    response = NoContent();
-                }
-
-                return response;
+                return Ok(id);
             }
             catch (SqlException ex)
             {
@@ -243,6 +237,7 @@ namespace backend.Controllers
         }
         
         [HttpGet("ratings/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserRatingById(int id)
         {
             string getUserRating = @"
@@ -269,6 +264,7 @@ namespace backend.Controllers
         
          
         [HttpGet("userRating")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserRatingByUserId(int userEvaluatedId, int userRateId)
         {
             string getUserRating = @"
