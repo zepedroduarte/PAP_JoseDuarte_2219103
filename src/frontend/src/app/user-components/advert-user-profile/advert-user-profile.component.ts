@@ -54,9 +54,13 @@ export class AdvertUserProfileComponent implements OnInit {
     this.userService.getUser().subscribe(data=> {
       this.userId = data!.userId
 
+
+
       this.userService.getUserRating(parseInt(this.id), this.userId).subscribe(data => {
         this.val = data?.RatedUserStars
+        console.log(data)
         this.userIdRated = data.UserIdRated
+
       })
     })
 
@@ -77,6 +81,8 @@ export class AdvertUserProfileComponent implements OnInit {
       ratedUserStars: this.val,
       userIdEvaluated: parseInt(this.id)
     }
+
+    console.log(rating)
 
     if(this.userId == this.userIdRated) {
       this.userService.userUpdateRateUser(rating).subscribe( () => {

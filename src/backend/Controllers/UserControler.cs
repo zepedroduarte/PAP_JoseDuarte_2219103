@@ -174,7 +174,7 @@ namespace backend.Controllers
         
            
         [HttpPost("ratings")]
-        [Authorize]
+    
         public async Task<IActionResult> UserRateUser([FromBody] Rating rating)
         {
 
